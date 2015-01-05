@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TimePicker;
 
+/**
+ * 時刻設定 Activity
+ */
 public class TimeSetActivity extends Activity {
     private int mKind;
 

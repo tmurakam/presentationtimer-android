@@ -8,9 +8,10 @@ import android.preference.PreferenceScreen;
 import android.view.Menu;
 import android.view.MenuItem;
 
+/**
+ * 設定Activity
+ */
 public class PrefActivity extends PreferenceActivity {
-    //private static final String TAG = "PresenTimer";
-
     private Prefs mPrefs;
 
     @Override
