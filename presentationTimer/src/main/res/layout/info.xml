@@ -4,7 +4,7 @@
     android:layout_height="fill_parent"
     android:background="#ddd"
     android:gravity="center_horizontal"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/ImageView01"
@@ -21,7 +21,7 @@
         android:layout_marginTop="15dip"
         android:text="Presentation Timer"
         android:textColor="#000"
-        android:textSize="12pt" >
+        android:textSize="14pt" >
     </TextView>
 
     <TextView
@@ -29,19 +29,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dip"
-        android:layout_weight="0.4"
         android:text="Version  xxxxx"
         android:textColor="#000"
-        android:textSize="8pt" >
+        android:textSize="10pt" >
     </TextView>
 
     <TextView
         android:id="@+id/TextView02"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Copyright (C) 2008-2014, Takuya Murakami"
+        android:layout_marginTop="20dip"
+        android:text="Copyright (C) 2008-2015,\nTakuya Murakami"
         android:textColor="#000"
-        android:textSize="6pt" >
+        android:textSize="10pt" >
     </TextView>
 
     <TextView

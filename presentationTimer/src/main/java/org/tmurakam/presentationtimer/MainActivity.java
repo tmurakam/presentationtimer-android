@@ -67,7 +67,6 @@ public class MainActivity extends Activity {
             mActionBar.hide();
         } else {
             // Android 2.x : ActionBar なし、タイトルバーなし
-            // Menu は menu ボタンから開く
             mActionBar = null;
             requestWindowFeature(Window.FEATURE_NO_TITLE);
         }

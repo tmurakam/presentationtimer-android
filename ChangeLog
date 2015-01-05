@@ -1,10 +1,14 @@
+2015/01/06 : Takuya Murakami
+
+	* ActionBar 非表示、設定ボタンを右下に追加
+
 2014/12/17 : Takuya Murakami
 
-    * v1.2 (beta)
-    * Gradle 対応、ディレクトリ構成変更
-    * ActionBar 表示 (Android 3.x 以上)
-    * フルスクリーンモード: タイマ稼働時に ActionBar を消す
-    * minSdkVersion 変更: 7->9
+	* v1.2 (beta)
+	* Gradle 対応、ディレクトリ構成変更
+	* ActionBar 表示 (Android 3.x 以上)
+	* フルスクリーンモード: タイマ稼働時に ActionBar を消す
+	* minSdkVersion 変更: 7->9
 
 2012/09/29 : Takuya Murakami
 
