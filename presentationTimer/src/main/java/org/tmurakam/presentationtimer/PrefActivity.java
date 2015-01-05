@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
+import android.view.Menu;
+import android.view.MenuItem;
 
 public class PrefActivity extends PreferenceActivity {
     //private static final String TAG = "PresenTimer";
@@ -65,5 +67,26 @@ public class PrefActivity extends PreferenceActivity {
             }
             ps.setSummary(s);
         }
+    }
+
+    // --- Menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.pref_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+
+        switch (item.getItemId()) {
+            case R.id.menu_help:
+                intent = new Intent(this, InfoActivity.class);
+                startActivity(intent);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

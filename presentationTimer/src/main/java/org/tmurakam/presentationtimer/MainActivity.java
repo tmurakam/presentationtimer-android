@@ -72,7 +72,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT >= 11) {
             mActionBar = getActionBar();
-            //mActionBar.hide();
+            mActionBar.hide();
         } else {
             // Android 2.x : ActionBar なし、タイトルバーなし
             // Menu は menu ボタンから開く
@@ -315,29 +315,8 @@ public class MainActivity extends Activity {
         return ts;
     }
 
-    // --- Menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
-
-        switch (item.getItemId()) {
-            case R.id.menu_preferences:
-                intent = new Intent(this, PrefActivity.class);
-                startActivity(intent);
-                return true;
-
-            case R.id.menu_help:
-                intent = new Intent(this, InfoActivity.class);
-                startActivity(intent);
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public void onClickConfig(View v) {
+        Intent intent = new Intent(this, PrefActivity.class);
+        startActivity(intent);
     }
 }
