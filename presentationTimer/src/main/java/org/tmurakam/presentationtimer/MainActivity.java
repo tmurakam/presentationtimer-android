@@ -6,15 +6,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Vibrator;
-//import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -24,6 +18,9 @@ import android.widget.TextView;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * メインアクティビティ
+ */
 public class MainActivity extends Activity {
     //private final static String TAG = "PresenTimer";
 
@@ -44,18 +41,13 @@ public class MainActivity extends Activity {
     /** プリファレンス　 */
     private Prefs mPrefs;
 
-    /** 音声データ */
-    private MediaPlayer[] mBells;
-
-    /** バイブレータ */
-    private Vibrator mVibrator;
-    private long[][] mVibratorPattern;
-
     /** タイマ */
     private Timer mTimer;
 
     /** タイマハンドラ */
     private Handler mTimerHandler;
+
+    private BellRinger mBellRinger;
 
     /** 現在時間表示ビュー */
     private TextView mTextView;
@@ -92,19 +84,7 @@ public class MainActivity extends Activity {
 
         mPrefs = new Prefs(this);
 
-        mBells = new MediaPlayer[3];
-        mBells[0] = MediaPlayer.create(this, R.raw.bell1);
-        mBells[1] = MediaPlayer.create(this, R.raw.bell2);
-        mBells[2] = MediaPlayer.create(this, R.raw.bell3);
-        for (MediaPlayer p : mBells) {
-            p.setVolume(1.0f, 1.0f);
-        }
-
-        mVibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-        mVibratorPattern = new long[3][];
-        mVibratorPattern[0] = new long[]{0, 500};
-        mVibratorPattern[1] = new long[]{0, 500, 200, 500};
-        mVibratorPattern[2] = new long[]{0, 500, 200, 500, 200, 500};
+        mBellRinger = new BellRinger(this);
 
         if (savedInstanceState != null) {
             restoreInstanceState(savedInstanceState);
@@ -148,10 +128,8 @@ public class MainActivity extends Activity {
         if (mTimer != null) {
             mTimer.cancel();
         }
-        for (MediaPlayer p : mBells) {
-            p.release();
-        }
-        
+        mBellRinger.release();
+
         super.onDestroy();
     }
     
@@ -203,8 +181,7 @@ public class MainActivity extends Activity {
      * Ring bell manually
      */
     public void onClickBell(View v) {
-        mBells[0].seekTo(0);
-        mBells[0].start();
+        mBellRinger.ringBell(0);
     }
 
     /**
@@ -221,25 +198,11 @@ public class MainActivity extends Activity {
     private void timerHandler() {
         mCurrentTime++;
 
-        MediaPlayer p = null;
-        long[] v = null;
-
-        if (mCurrentTime == mPrefs.getBellTime(1)) {
-            p = mBells[0];
-            v = mVibratorPattern[0];
-        } else if (mCurrentTime == mPrefs.getBellTime(2)) {
-            p = mBells[1];
-            v = mVibratorPattern[1];
-        } else if (mCurrentTime == mPrefs.getBellTime(3)) {
-            p = mBells[2];
-            v = mVibratorPattern[2];
-        }
-        if (p != null) {
-            p.seekTo(0);
-            p.start();
-        }
-        if (v != null) {
-            mVibrator.vibrate(v, -1);
+        for (int i = 0; i < 3; i++) {
+            if (mCurrentTime == mPrefs.getBellTime(i + 1)) {
+                mBellRinger.ringBellAndVibrate(i);
+                break;
+            }
         }
 
         updateTimeLabel();
