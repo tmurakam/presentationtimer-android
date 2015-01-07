@@ -65,6 +65,9 @@ public class MainActivity extends Activity implements TimerLogic.TimerCallback {
         }
         setContentView(R.layout.main);
 
+        // ステータスバーを消す
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         // 音量ボタンで、Media ボリュームが変わるようにする
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
@@ -113,6 +116,16 @@ public class MainActivity extends Activity implements TimerLogic.TimerCallback {
      */
     public void onClickStartStop(View v) {
         mTimerLogic.toggleTimer();
+
+        if (mTimerLogic.isTimerWorking()) {
+            // ナビゲーションバーを隠す
+            /*
+            if (Build.VERSION.SDK_INT >= 11) {
+                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+            }
+            */
+        }
+
         updateUiStates();
     }
 
