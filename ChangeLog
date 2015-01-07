@@ -1,3 +1,8 @@
+2015/01/07 : Takuya Murakami
+
+	* ステータスバーを消す
+	* Crashlytics 導入
+
 2015/01/06 : Takuya Murakami
 
 	* ActionBar 非表示、設定ボタンを右下に追加
