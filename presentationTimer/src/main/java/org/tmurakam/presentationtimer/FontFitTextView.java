@@ -11,7 +11,7 @@ import android.widget.TextView;
 // http://stackoverflow.com/questions/2617266/how-to-adjust-text-font-size-to-fit-textview
 
 public class FontFitTextView extends TextView {
-    private final static String TAG = "PresenTimer";
+    private final static String TAG = FontFitTextView.class.getSimpleName();
 
     private Paint testPaint;
 

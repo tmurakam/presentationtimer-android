@@ -20,7 +20,7 @@ import com.crashlytics.android.Crashlytics;
  * メインアクティビティ
  */
 public class MainActivity extends Activity implements TimerLogic.TimerCallback {
-    //private final static String TAG = "PresenTimer";
+    private final static String TAG = MainActivity.class.getSimpleName();
 
     private final static String KEY_IS_COUNTDOWN = "isCountDown";
 
