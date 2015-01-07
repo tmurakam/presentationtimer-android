@@ -15,5 +15,6 @@
     <string name="end_time">End time</string>
     <string name="hours">hours</string>
     <string name="minutes">minutes</string>
+    <string name="vibration">Vibration</string>
 
 </resources>

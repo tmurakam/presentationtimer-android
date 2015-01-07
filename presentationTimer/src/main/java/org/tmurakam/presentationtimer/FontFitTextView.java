@@ -19,6 +19,8 @@ public class FontFitTextView extends TextView {
 
     private float maxTextSize;
 
+    private float density = 1;
+
     public FontFitTextView(Context context) {
         super(context);
         initialize();
@@ -44,6 +46,10 @@ public class FontFitTextView extends TextView {
         minTextSize = 10;
     }
 
+    public void setDensity(float density) {
+        this.density = density;
+    }
+
     @Override
     protected void onTextChanged(final CharSequence text, final int start, final int before,
             final int after) {
@@ -65,8 +71,9 @@ public class FontFitTextView extends TextView {
         if (width <= 0 || height <= 0)
             return;
 
-        int availableWidth = width - this.getPaddingLeft() - this.getPaddingRight();
-        int availableHeight = height - this.getPaddingTop() - this.getPaddingBottom();
+        // 表示可能領域サイズを取得 (dp単位)
+        int availableWidth = (int)((width - this.getPaddingLeft() - this.getPaddingRight()) / density);
+        int availableHeight = (int)((height - this.getPaddingTop() - this.getPaddingBottom()) / density);
 
         float max = maxTextSize;
         float min = minTextSize;

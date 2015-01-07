@@ -57,13 +57,4 @@ public class BellRinger {
     public void vibrate(int n) {
         mVibrator.vibrate(mVibratorPattern[n], -1);
     }
-
-    /**
-     * Bell/バイブレータ鳴動
-     * @param n ベル番号(0-2)
-     */
-    public void ringBellAndVibrate(int n) {
-        ringBell(n);
-        vibrate(n);
-    }
 }

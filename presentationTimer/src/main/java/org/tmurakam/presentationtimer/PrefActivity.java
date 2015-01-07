@@ -4,6 +4,8 @@ package org.tmurakam.presentationtimer;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 import android.view.Gravity;
@@ -42,6 +44,17 @@ public class PrefActivity extends PreferenceActivity {
             intent.putExtra("kind", i);
             ps.setIntent(intent);
         }
+
+        CheckBoxPreference cp = (CheckBoxPreference)findPreference("vibration");
+        cp.setChecked(mPrefs.getVibration());
+
+        cp.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                mPrefs.setVibration((Boolean)newValue);
+                return true;
+            }
+        });
 
         updateUi();
 
