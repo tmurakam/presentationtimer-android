@@ -5,6 +5,9 @@
     <PreferenceScreen android:title="@string/_2bells_time" android:key="_2bell"/>
     <PreferenceScreen android:title="@string/_3bells_time" android:key="_3bell"/>
 
+
+    <CheckBoxPreference android:title="@string/vibration" android:key="vibration" android:summaryOn="On" android:summaryOff="Off"/>
+
     <!-- spacer for ads -->
     <Preference android:selectable="false" android:layout="@layout/preference_ads"/>
 

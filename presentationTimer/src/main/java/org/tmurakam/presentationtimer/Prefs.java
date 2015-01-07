@@ -61,4 +61,17 @@ public class Prefs {
         editor.putInt("countDownTarget", kind);
         editor.apply();
     }
+
+    /**
+     * バイブレーションオプション
+     */
+    public boolean getVibration() {
+        return mPrefs.getBoolean("vibration", true);
+    }
+
+    public void setVibration(boolean on) {
+        SharedPreferences.Editor editor = mPrefs.edit();
+        editor.putBoolean("vibration", on);
+        editor.apply();
+    }
 }

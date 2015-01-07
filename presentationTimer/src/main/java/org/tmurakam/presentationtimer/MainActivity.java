@@ -169,7 +169,10 @@ public class MainActivity extends Activity implements TimerLogic.TimerCallback {
 
         for (int i = 0; i < 3; i++) {
             if (currentTime == mPrefs.getBellTime(i + 1)) {
-                mBellRinger.ringBellAndVibrate(i);
+                mBellRinger.ringBell(i);
+                if (mPrefs.getVibration()) {
+                    mBellRinger.vibrate(i);
+                }
                 break;
             }
         }
