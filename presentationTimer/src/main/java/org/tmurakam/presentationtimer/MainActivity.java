@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import com.crashlytics.android.Crashlytics;
 
 /**
  * メインアクティビティ
@@ -50,6 +51,10 @@ public class MainActivity extends Activity implements TimerLogic.TimerCallback {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Crashlytics
+        Crashlytics.start(this);
+
         if (Build.VERSION.SDK_INT >= 11) {
             mActionBar = getActionBar();
             mActionBar.hide();
