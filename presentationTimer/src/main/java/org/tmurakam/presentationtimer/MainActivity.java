@@ -9,6 +9,8 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -39,7 +41,7 @@ public class MainActivity extends Activity implements TimerLogic.TimerCallback {
     private BellRinger mBellRinger;
 
     /** 現在時間表示ビュー */
-    private TextView mTextView;
+    private FontFitTextView mTextView;
 
     /** ボタン */
     private Button mStartStopButton, mResetButton;
@@ -71,9 +73,15 @@ public class MainActivity extends Activity implements TimerLogic.TimerCallback {
         // 音量ボタンで、Media ボリュームが変わるようにする
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-        mTextView = (TextView) findViewById(R.id.timeView);
+        mTextView = (FontFitTextView) findViewById(R.id.timeView);
         mStartStopButton = (Button) findViewById(R.id.startStop);
         mResetButton = (Button) findViewById(R.id.reset);
+
+        // scaled density 取得
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        mTextView.setDensity(metrics.scaledDensity);
+        Log.d(TAG, "Density = " + metrics.scaledDensity);
 
         mPrefs = new Prefs(this);
 
