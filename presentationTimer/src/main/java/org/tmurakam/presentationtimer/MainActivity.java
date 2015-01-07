@@ -15,25 +15,13 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 /**
  * メインアクティビティ
  */
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements TimerLogic.TimerCallback {
     //private final static String TAG = "PresenTimer";
 
-    private final static String KEY_CURRENT_TIME = "currentTime";
-
     private final static String KEY_IS_COUNTDOWN = "isCountDown";
-
-    private final static String KEY_IS_TIMER_WORKING = "isTimerWorking";
-
-    private final static String KEY_SUSPENDED_TIME = "suspendedTime";
-
-    /** 現在時刻(秒) */
-    private int mCurrentTime = 0;
 
     /** 表示モード:カウントダウンモードなら真 */
     private boolean mIsCountDown = false;
@@ -41,11 +29,11 @@ public class MainActivity extends Activity {
     /** プリファレンス　 */
     private Prefs mPrefs;
 
-    /** タイマ */
-    private Timer mTimer;
+    /** タイマロジック */
+    private TimerLogic mTimerLogic = new TimerLogic(this);
 
     /** タイマハンドラ */
-    private Handler mTimerHandler;
+    private Handler mHandler = new Handler();
 
     private BellRinger mBellRinger;
 
@@ -79,8 +67,6 @@ public class MainActivity extends Activity {
         mStartStopButton = (Button) findViewById(R.id.startStop);
         mResetButton = (Button) findViewById(R.id.reset);
 
-        mTimerHandler = new Handler();
-
         mPrefs = new Prefs(this);
 
         mBellRinger = new BellRinger(this);
@@ -94,26 +80,13 @@ public class MainActivity extends Activity {
 
     @Override
     public void onSaveInstanceState(Bundle st) {
-        st.putInt(KEY_CURRENT_TIME, mCurrentTime);
         st.putBoolean(KEY_IS_COUNTDOWN, mIsCountDown);
-        st.putBoolean(KEY_IS_TIMER_WORKING, mTimer != null);
-
-        st.putLong(KEY_SUSPENDED_TIME, System.currentTimeMillis());
+        mTimerLogic.onSaveInstanceState(st);
     }
 
     private void restoreInstanceState(Bundle st) {
-        mCurrentTime = st.getInt(KEY_CURRENT_TIME);
         mIsCountDown = st.getBoolean(KEY_IS_COUNTDOWN);
-
-        boolean isTimeWorking = st.getBoolean(KEY_IS_TIMER_WORKING);
-        if (isTimeWorking) {
-            long suspendedTime = st.getLong(KEY_SUSPENDED_TIME);
-            long elapsed = (System.currentTimeMillis() - suspendedTime) / 1000;
-
-            mCurrentTime += elapsed;
-
-            startTimer();
-        }
+        mTimerLogic.restoreInstanceState(st);
     }
 
     @Override
@@ -124,9 +97,7 @@ public class MainActivity extends Activity {
 
     @Override
     public void onDestroy() {
-        if (mTimer != null) {
-            mTimer.cancel();
-        }
+        mTimerLogic.stopTimer();
         mBellRinger.release();
 
         super.onDestroy();
@@ -136,43 +107,15 @@ public class MainActivity extends Activity {
      * Start or stop timer (toggle)
      */
     public void onClickStartStop(View v) {
-        if (mTimer == null) {
-            startTimer();
-        } else {
-            stopTimer();
-        }
+        mTimerLogic.toggleTimer();
         updateUiStates();
-    }
-
-    private void startTimer() {
-        assert (mTimer == null);
-
-        mTimer = new Timer(true);
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                mTimerHandler.post(new Runnable() {
-                    public void run() {
-                        timerHandler();
-                    }
-                });
-            }
-        };
-        mTimer.schedule(task, 1000, 1000);
-    }
-
-    private void stopTimer() {
-        assert (mTimer != null);
-        mTimer.cancel();
-        mTimer.purge();
-        mTimer = null;
     }
 
     /**
      * Reset timer value
      */
     public void onClickReset(View v) {
-        mCurrentTime = 0;
+        mTimerLogic.reset();
         updateTimeLabel();
     }
 
@@ -194,11 +137,20 @@ public class MainActivity extends Activity {
     /**
      * Timer handler : called for each 1 second.
      */
-    private void timerHandler() {
-        mCurrentTime++;
+    @Override
+    public void onTimerUpdate() {
+        mHandler.post(new Runnable() {
+            public void run() {
+                onTimerOnMainThread();
+            }
+        });
+    }
+
+    private void onTimerOnMainThread() {
+        int currentTime = mTimerLogic.currentTime();
 
         for (int i = 0; i < 3; i++) {
-            if (mCurrentTime == mPrefs.getBellTime(i + 1)) {
+            if (currentTime == mPrefs.getBellTime(i + 1)) {
                 mBellRinger.ringBellAndVibrate(i);
                 break;
             }
@@ -211,7 +163,7 @@ public class MainActivity extends Activity {
      * Update button states
      */
     private void updateUiStates() {
-        if (mTimer == null) {
+        if (!mTimerLogic.isTimerWorking()) {
             mStartStopButton.setText(R.string.start);
             mResetButton.setEnabled(true);
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -226,12 +178,14 @@ public class MainActivity extends Activity {
      * Update time label
      */
     private void updateTimeLabel() {
+        int currentTime = mTimerLogic.currentTime();
         int t;
+
         if (!mIsCountDown) {
-            t = mCurrentTime;
+            t = currentTime;
         } else {
             int target = mPrefs.getBellTime(mPrefs.getCountDownTarget());
-            t = target - mCurrentTime;
+            t = target - currentTime;
             if (t < 0)
                 t = -t;
         }
@@ -239,11 +193,11 @@ public class MainActivity extends Activity {
         mTextView.setText(timeText(t));
 
         int col;
-        if (mCurrentTime >= mPrefs.getBellTime(3)) {
+        if (currentTime >= mPrefs.getBellTime(3)) {
             col = Color.RED; // 0xffff0000
-        } else if (mCurrentTime >= mPrefs.getBellTime(2)) {
+        } else if (currentTime >= mPrefs.getBellTime(2)) {
             col = 0xffff33cc;
-        } else if (mCurrentTime >= mPrefs.getBellTime(1)) {
+        } else if (currentTime >= mPrefs.getBellTime(1)) {
             col = Color.YELLOW; // 0xffffff00
         } else {
             col = Color.WHITE; // 0xffffffff
