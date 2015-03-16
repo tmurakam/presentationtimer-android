@@ -24,7 +24,7 @@ dependencies {
 
 android {
     compileSdkVersion 21
-    buildToolsVersion '21.1.2'
+    buildToolsVersion '22'
 
     // 署名設定は keystore.propertiesファイルに記述すること
     Properties props = new Properties()
