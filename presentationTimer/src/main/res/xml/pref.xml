@@ -8,7 +8,4 @@
 
     <CheckBoxPreference android:title="@string/vibration" android:key="vibration" android:summaryOn="On" android:summaryOff="Off"/>
 
-    <!-- spacer for ads -->
-    <Preference android:selectable="false" android:layout="@layout/preference_ads"/>
-
 </PreferenceScreen>

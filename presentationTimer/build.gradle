@@ -2,8 +2,6 @@ apply plugin: 'com.android.application'
 
 dependencies {
     compile 'com.android.support:appcompat-v7:21.+'
-
-    compile 'com.google.android.gms:play-services-ads:6.5.+'
     }
 
 android {
