@@ -30,9 +30,6 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <!-- Crashlytics -->
-        <meta-data android:name="com.crashlytics.ApiKey" android:value="532ecad9ca165fccdfe2d04c731d6b7449375147"/>
-
         <activity
             android:name=".MainActivity"
             android:configChanges="keyboardHidden|orientation"

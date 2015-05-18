@@ -1,26 +1,10 @@
-buildscript {
-    repositories {
-        maven { url 'http://download.crashlytics.com/maven' }
-    }
-
-    dependencies {
-        classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.+'
-    }
-}
-
 apply plugin: 'com.android.application'
-apply plugin: 'crashlytics'
-
-repositories {
-    maven { url 'http://download.crashlytics.com/maven' }
-}
 
 dependencies {
     compile 'com.android.support:appcompat-v7:21.+'
 
     compile 'com.google.android.gms:play-services-ads:6.5.+'
-    compile 'com.crashlytics.android:crashlytics:1.+'
-}
+    }
 
 android {
     compileSdkVersion 21
