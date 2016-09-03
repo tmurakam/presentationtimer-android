@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -58,6 +59,9 @@ public class MainActivity extends Activity implements TimerLogic.TimerCallback {
 
         // Fabric
         Fabric.with(this, new Crashlytics());
+
+        // Firebase
+        FirebaseAnalytics.getInstance(this);
 
         if (Build.VERSION.SDK_INT >= 11) {
             mActionBar = getActionBar();

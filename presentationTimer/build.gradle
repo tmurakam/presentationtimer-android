@@ -21,7 +21,9 @@ repositories {
 dependencies {
     compile 'com.android.support:appcompat-v7:24.2.0'
 
-    compile 'com.google.android.gms:play-services-ads:9.4.0'
+    //compile 'com.google.android.gms:play-services-ads:9.4.0'
+    compile 'com.google.firebase:firebase-ads:9.4.0'
+    compile 'com.google.firebase:firebase-analytics:9.4.0'
 
     compile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {
         transitive = true;
@@ -67,6 +69,9 @@ android {
         targetSdkVersion 24
     }
 }
+
+// firebase
+apply plugin: 'com.google.gms.google-services'
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
