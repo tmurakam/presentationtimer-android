@@ -15,6 +15,7 @@
     <string name="end_time">終了時刻</string>
     <string name="hours">時間</string>
     <string name="minutes">分</string>
+    <string name="seconds">秒</string>
     <string name="vibration">バイブレーション</string>
 
 </resources>
