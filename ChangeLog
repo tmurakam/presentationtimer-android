@@ -1,6 +1,9 @@
 2016/09/03 : Takuya Murakami
 
+	* v2.0
+	* 秒指定機能追加
 	* Crashlytics -> Fabric 移行
+	* Firebase 移行
 
 2015/01/07 : Takuya Murakami
 

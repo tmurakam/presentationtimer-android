@@ -28,7 +28,7 @@
         <Button
             android:id="@+id/startStop"
             android:layout_width="0sp"
-            android:layout_height="48sp"
+            android:layout_height="64sp"
             android:layout_marginLeft="8sp"
             android:layout_marginRight="5sp"
             android:layout_weight="1"
@@ -37,7 +37,7 @@
 
         <ImageButton
             android:layout_width="0sp"
-            android:layout_height="48sp"
+            android:layout_height="64sp"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_weight="1"
             android:onClick="onClickBell"
@@ -47,7 +47,7 @@
         <Button
             android:id="@+id/reset"
             android:layout_width="0sp"
-            android:layout_height="48sp"
+            android:layout_height="64sp"
             android:layout_marginLeft="5sp"
             android:layout_marginRight="5sp"
             android:layout_weight="1"
