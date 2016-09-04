@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "235093794172",
+    "firebase_url": "https://presentationtimer-22d50.firebaseio.com",
+    "project_id": "presentationtimer-22d50",
+    "storage_bucket": "presentationtimer-22d50.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235093794172:android:a93b1271648dec74",
+        "android_client_info": {
+          "package_name": "org.tmurakam.presentationtimer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "235093794172-hpb0j7v5dk5a0kisssj75bf3ap3hqg87.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYeFLblaMN4JMjB3AdE1VizKURo1r4rN0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,7 +1,6 @@
 
 package org.tmurakam.presentationtimer;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -11,7 +10,6 @@ import android.preference.PreferenceScreen;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.google.android.gms.ads.AdRequest;
@@ -99,6 +97,7 @@ public class PrefActivity extends PreferenceActivity {
             int time = mPrefs.getBellTime(i);
             int hour = time / 3600;
             int min = (time / 60) % 60;
+            int sec = time % 60;
             
             String s = "";
             if (hour > 0) {
@@ -106,8 +105,15 @@ public class PrefActivity extends PreferenceActivity {
                 s += getResources().getString(R.string.hours);
                 s += " ";
             }
-            s += min;
-            s += getResources().getString(R.string.minutes);
+            if (min > 0) {
+                s += min;
+                s += getResources().getString(R.string.minutes);
+                s += " ";
+            }
+            if (sec > 0) {
+                s += sec;
+                s += getResources().getString(R.string.seconds);
+            }
 
             if (i == mPrefs.getCountDownTarget()) {
                 s += ", ";
