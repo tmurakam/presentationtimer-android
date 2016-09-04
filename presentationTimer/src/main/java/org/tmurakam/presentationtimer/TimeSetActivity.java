@@ -24,7 +24,7 @@ public class TimeSetActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setTheme(android.R.style.Theme_Dialog);
+        //setTheme(R.style.MyDialog);
         setContentView(R.layout.time_set);
 
         mTimePicker = (TimePicker)findViewById(R.id.TimePicker);
