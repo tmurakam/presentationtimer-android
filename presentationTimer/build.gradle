@@ -1,40 +1,20 @@
-buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' }
-    }
-
-    dependencies {
-        // The Fabric Gradle plugin uses an open ended version to react
-        // quickly to Android tooling updates
-        classpath 'io.fabric.tools:gradle:1.+'
-    }
-}
-
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
-repositories {
-    jcenter()
-    maven { url 'http://maven.fabric.io/public' }
-}
-
 dependencies {
-    compile 'com.android.support:appcompat-v7:24.2.0'
+    implementation 'com.android.support:appcompat-v7:24.2.0'
 
-    //compile 'com.google.android.gms:play-services-ads:9.4.0'
-    compile 'com.google.firebase:firebase-ads:9.4.0'
-    compile 'com.google.firebase:firebase-analytics:9.4.0'
+    implementation 'com.google.firebase:firebase-core:16.0.3'
+    implementation 'com.google.firebase:firebase-ads:15.0.1'
+    implementation 'com.google.firebase:firebase-analytics:16.0.3'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
 
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {
-        transitive = true;
-    }
-
-    compile 'com.kovachcode:timePickerWithSeconds:1.0.0'
+    implementation 'com.kovachcode:timePickerWithSeconds:1.0.0'
 }
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion '24.0.2'
+    compileSdkVersion 27
+    buildToolsVersion '28.0.2'
 
     // 署名設定は keystore.propertiesファイルに記述すること
     Properties props = new Properties()
@@ -61,18 +41,18 @@ android {
 
     defaultConfig {
         applicationId "org.tmurakam.presentationtimer"
-        versionCode 4
-        versionName "2.0"
+        versionCode 5
+        versionName "2.0.1"
 
         //minSdkVersion 9
         minSdkVersion 15
-        targetSdkVersion 24
+        targetSdkVersion 27
     }
 }
-
-// firebase
-apply plugin: 'com.google.gms.google-services'
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
+
+// firebase
+apply plugin: 'com.google.gms.google-services'

@@ -56,9 +56,17 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dip"
+        android:layout_marginBottom="10dip"
         android:onClick="onClickHelp"
         android:text="Show help in browser" >
+    </Button>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dip"
+        android:onClick="onClickPrivacyPolicy"
+        android:text="Privacy Policy" >
     </Button>
 
 </LinearLayout>

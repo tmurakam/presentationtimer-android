@@ -32,7 +32,15 @@ public class InfoActivity extends Activity {
     public void onClickHelp(View v) {
         String url = getResources().getString(R.string.help_url);
 
+        openBrowser(url);
+    }
+
+    private void openBrowser(String url) {
         Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(i);
+    }
+
+    public void onClickPrivacyPolicy(View v) {
+        openBrowser("http://apps.tmurakam.org/privacy_policy.html");
     }
 }
