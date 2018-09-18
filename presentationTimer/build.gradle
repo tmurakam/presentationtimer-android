@@ -4,17 +4,17 @@ apply plugin: 'io.fabric'
 dependencies {
     implementation 'com.android.support:appcompat-v7:24.2.0'
 
-    implementation 'com.google.firebase:firebase-core:16.0.1'
+    implementation 'com.google.firebase:firebase-core:16.0.3'
     implementation 'com.google.firebase:firebase-ads:15.0.1'
-    implementation 'com.google.firebase:firebase-analytics:16.0.1'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.4'
+    implementation 'com.google.firebase:firebase-analytics:16.0.3'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
 
     implementation 'com.kovachcode:timePickerWithSeconds:1.0.0'
 }
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '28.0.1'
+    buildToolsVersion '28.0.2'
 
     // 署名設定は keystore.propertiesファイルに記述すること
     Properties props = new Properties()
@@ -41,8 +41,8 @@ android {
 
     defaultConfig {
         applicationId "org.tmurakam.presentationtimer"
-        versionCode 4
-        versionName "2.0"
+        versionCode 5
+        versionName "2.0.1"
 
         //minSdkVersion 9
         minSdkVersion 15
