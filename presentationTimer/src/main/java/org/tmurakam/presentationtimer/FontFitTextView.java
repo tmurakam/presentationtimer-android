@@ -4,13 +4,13 @@ package org.tmurakam.presentationtimer;
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.widget.TextView;
 
 // http://stackoverflow.com/questions/2617266/how-to-adjust-text-font-size-to-fit-textview
 
-public class FontFitTextView extends TextView {
+public class FontFitTextView extends AppCompatTextView {
     private final static String TAG = FontFitTextView.class.getSimpleName();
 
     private Paint testPaint;
