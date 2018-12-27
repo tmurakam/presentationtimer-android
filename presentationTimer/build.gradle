@@ -13,8 +13,8 @@ dependencies {
 }
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '28.0.2'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
 
     // 署名設定は keystore.propertiesファイルに記述すること
     Properties props = new Properties()
@@ -46,7 +46,7 @@ android {
 
         //minSdkVersion 9
         minSdkVersion 15
-        targetSdkVersion 27
+        targetSdkVersion 28
     }
 }
 
