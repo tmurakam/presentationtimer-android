@@ -41,8 +41,8 @@ android {
 
     defaultConfig {
         applicationId "org.tmurakam.presentationtimer"
-        versionCode 5
-        versionName "2.0.1"
+        versionCode 6
+        versionName "2.0.2"
 
         //minSdkVersion 9
         minSdkVersion 15
