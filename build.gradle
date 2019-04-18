@@ -7,10 +7,10 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.0'
+        classpath 'com.android.tools.build:gradle:3.4.0'
 
         classpath 'com.google.gms:google-services:4.2.0' // firebase
-        classpath 'io.fabric.tools:gradle:1.25.4' // crashlytics
+        classpath 'io.fabric.tools:gradle:1.28.0' // crashlytics
     }
 }
 
@@ -19,8 +19,4 @@ allprojects {
         google()
         jcenter()
     }
-}
-
-task wrapper(type: Wrapper) {
-     gradleVersion = '4.10.1'
 }
