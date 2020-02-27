@@ -1,6 +1,7 @@
 2020/xx/xx : Takuya Murakami
 
     * androidx 移行
+    * minSdkVersion: 15 -> 16
 
 2018/09/18 : Takuya Murakami
 
