@@ -2,10 +2,10 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.browser:browser:1.0.0'
-    implementation 'androidx.media:media:1.0.0'
+    implementation 'androidx.media:media:1.1.0'
 
     implementation 'com.google.firebase:firebase-core:17.2.2'
     implementation 'com.google.firebase:firebase-ads:18.3.0'
