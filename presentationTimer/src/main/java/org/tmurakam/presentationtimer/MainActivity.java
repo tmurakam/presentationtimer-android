@@ -16,10 +16,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
-import com.crashlytics.android.Crashlytics;
 import com.google.firebase.analytics.FirebaseAnalytics;
-
-import io.fabric.sdk.android.Fabric;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 /**
  * メインアクティビティ
@@ -57,10 +55,10 @@ public class MainActivity extends Activity implements TimerLogic.TimerCallback {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Fabric
-        Fabric.with(this, new Crashlytics());
+        // Firebase Crashlytics
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true);
 
-        // Firebase
+        // Firebase Analytics
         FirebaseAnalytics.getInstance(this);
 
         if (Build.VERSION.SDK_INT >= 11) {

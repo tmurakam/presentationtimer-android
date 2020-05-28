@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
 
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -10,7 +9,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:17.4.2'
     implementation 'com.google.firebase:firebase-ads:19.1.0'
     implementation 'com.google.firebase:firebase-analytics:17.4.2'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    implementation 'com.google.firebase:firebase-crashlytics:17.0.0'
 
     implementation 'com.kovachcode:timePickerWithSeconds:1.0.0'
 }
@@ -65,3 +64,5 @@ tasks.withType(JavaCompile) {
 
 // firebase
 apply plugin: 'com.google.gms.google-services'
+
+apply plugin: 'com.google.firebase.crashlytics'
