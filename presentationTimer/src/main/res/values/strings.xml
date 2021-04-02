@@ -2,9 +2,9 @@
 <resources>
 
     <string name="app_name">Presentation Timer</string>
-    <string name="start">Start</string>
-    <string name="pause">Pause</string>
-    <string name="reset">Reset</string>
+    <string name="start">Simrandeep</string>
+    <string name="pause">Stop, Wait a minute!</string>
+    <string name="reset">Its rewind time!!</string>
     <string name="use_as_end_time">Use as presentation end time</string>
     <string name="help_url">http://apps.tmurakam.org/presentationTimer/index.en.html</string>
     <string name="_1bell_time">1 bell time</string>
