@@ -1,5 +1,6 @@
 2020/xx/xx : Takuya Murakami
 
+    * v2.0.2
 	* androidx 移行
 	* minSdkVersion: 15 -> 16
 	* Fabric -> Firebase 移行
