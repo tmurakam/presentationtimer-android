@@ -1,10 +1,11 @@
-2020/xx/xx : Takuya Murakami
+2021/xx/xx : Takuya Murakami
 
     * v2.0.2
 	* androidx 移行
 	* minSdkVersion: 15 -> 16
 	* Fabric -> Firebase 移行
 	* import TimePickerWithSeconds
+	* バグ修正: Android R 以降、ナビゲーションバーが重なる問題を修正
 
 2018/09/18 : Takuya Murakami
 
