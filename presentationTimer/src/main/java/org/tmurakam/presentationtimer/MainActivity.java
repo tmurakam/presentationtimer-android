@@ -61,14 +61,8 @@ public class MainActivity extends Activity implements TimerLogic.TimerCallback {
         // Firebase Analytics
         FirebaseAnalytics.getInstance(this);
 
-        if (Build.VERSION.SDK_INT >= 11) {
-            mActionBar = getActionBar();
-            mActionBar.hide();
-        } else {
-            // Android 2.x : ActionBar なし、タイトルバーなし
-            mActionBar = null;
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-        }
+        mActionBar = getActionBar();
+        mActionBar.hide();
         setContentView(R.layout.main);
 
         // ステータスバーを消す
