@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 
-import com.ikovac.timepickerwithseconds.TimePicker;
+import com.ikovac.timepickerwithseconds.view.TimePicker;
 
 /**
  * 時刻設定 Activity
