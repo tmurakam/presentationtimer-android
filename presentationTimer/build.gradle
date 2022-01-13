@@ -51,6 +51,8 @@ android {
         //minSdkVersion 15
         minSdkVersion 19
         targetSdkVersion 31
+
+        multiDexEnabled true
     }
 
     compileOptions {
