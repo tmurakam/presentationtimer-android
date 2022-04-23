@@ -1,99 +1,84 @@
-package org.tmurakam.presentationtimer;
+package org.tmurakam.presentationtimer
 
-import android.os.Bundle;
-
-import java.util.Timer;
-import java.util.TimerTask;
+import android.os.Bundle
+import java.util.*
 
 /**
  * タイマロジック
  */
-public class TimerLogic {
-    private final static String KEY_CURRENT_TIME = "currentTime";
-
-    private final static String KEY_IS_TIMER_WORKING = "isTimerWorking";
-
-    private final static String KEY_SUSPENDED_TIME = "suspendedTime";
+class TimerLogic(private val mTimerCallback: TimerCallback) {
+    private val KEY_CURRENT_TIME = "currentTime"
+    private val KEY_IS_TIMER_WORKING = "isTimerWorking"
+    private val KEY_SUSPENDED_TIME = "suspendedTime"
 
     /**
      * タイマコールバック
      */
-    public static interface TimerCallback {
-        public void onTimerUpdate();
+    interface TimerCallback {
+        fun onTimerUpdate()
     }
 
-    private TimerCallback mTimerCallback;
+    /** 現在時刻(秒)  */
+    private var mCurrentTime = 0
 
-    /** 現在時刻(秒) */
-    private int mCurrentTime = 0;
+    /** タイマ  */
+    private var mTimer: Timer? = null
 
-    /** タイマ */
-    private Timer mTimer = null;
-
-    public TimerLogic(TimerCallback callback) {
-        mTimerCallback = callback;
+    fun currentTime(): Int {
+        return mCurrentTime
     }
 
-    public int currentTime() {
-        return mCurrentTime;
-    }
+    val isTimerWorking: Boolean
+        get() = mTimer != null
 
-    public boolean isTimerWorking() {
-        return mTimer != null;
-    }
-
-    public void toggleTimer() {
-        if (isTimerWorking()) {
-            stopTimer();
+    fun toggleTimer() {
+        if (isTimerWorking) {
+            stopTimer()
         } else {
-            startTimer();
+            startTimer()
         }
     }
 
-    public void startTimer() {
-        assert (mTimer == null);
+    fun startTimer() {
+        assert(mTimer == null)
+        val timer = Timer(true)
+        mTimer = timer
 
-        mTimer = new Timer(true);
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                mCurrentTime++;
-                mTimerCallback.onTimerUpdate();
+        val task: TimerTask = object : TimerTask() {
+            override fun run() {
+                mCurrentTime++
+                mTimerCallback.onTimerUpdate()
             }
-        };
-        mTimer.schedule(task, 1000, 1000);
-    }
-
-    public void stopTimer() {
-        if (mTimer != null) {
-            mTimer.cancel();
-            mTimer.purge();
         }
-        mTimer = null;
+        timer.schedule(task, 1000, 1000)
     }
 
-    public void reset() {
-        mCurrentTime = 0;
+    fun stopTimer() {
+        if (mTimer != null) {
+            mTimer?.cancel()
+            mTimer?.purge()
+        }
+        mTimer = null
     }
 
-    public void onSaveInstanceState(Bundle st) {
-        st.putInt(KEY_CURRENT_TIME, mCurrentTime);
-        st.putBoolean(KEY_IS_TIMER_WORKING, isTimerWorking());
-
-        st.putLong(KEY_SUSPENDED_TIME, System.currentTimeMillis());
+    fun reset() {
+        mCurrentTime = 0
     }
 
-    public void restoreInstanceState(Bundle st) {
-        mCurrentTime = st.getInt(KEY_CURRENT_TIME);
+    fun onSaveInstanceState(st: Bundle) {
+        st.putInt(KEY_CURRENT_TIME, mCurrentTime)
+        st.putBoolean(KEY_IS_TIMER_WORKING, isTimerWorking)
+        st.putLong(KEY_SUSPENDED_TIME, System.currentTimeMillis())
+    }
 
-        boolean isTimeWorking = st.getBoolean(KEY_IS_TIMER_WORKING);
+    fun restoreInstanceState(st: Bundle) {
+        mCurrentTime = st.getInt(KEY_CURRENT_TIME)
+        val isTimeWorking = st.getBoolean(KEY_IS_TIMER_WORKING)
         if (isTimeWorking) {
-            long suspendedTime = st.getLong(KEY_SUSPENDED_TIME);
-            long elapsed = (System.currentTimeMillis() - suspendedTime) / 1000;
-
-            mCurrentTime += elapsed;
-
-            startTimer();
+            val suspendedTime = st.getLong(KEY_SUSPENDED_TIME)
+            val elapsed = (System.currentTimeMillis() - suspendedTime) / 1000
+            mCurrentTime += elapsed.toInt()
+            startTimer()
         }
     }
 }
