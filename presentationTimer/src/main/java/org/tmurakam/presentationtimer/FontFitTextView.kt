@@ -1,65 +1,53 @@
+package org.tmurakam.presentationtimer
 
-package org.tmurakam.presentationtimer;
-
-import android.content.Context;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import androidx.appcompat.widget.AppCompatTextView;
-import android.util.AttributeSet;
-import android.util.Log;
+import android.content.Context
+import android.graphics.Paint
+import android.graphics.Rect
+import android.util.AttributeSet
+import android.util.Log
+import androidx.appcompat.widget.AppCompatTextView
 
 // http://stackoverflow.com/questions/2617266/how-to-adjust-text-font-size-to-fit-textview
+class FontFitTextView : AppCompatTextView {
+    private val TAG = FontFitTextView::class.java.simpleName
 
-public class FontFitTextView extends AppCompatTextView {
-    private final static String TAG = FontFitTextView.class.getSimpleName();
+    private var testPaint: Paint = Paint()
 
-    private Paint testPaint;
+    // Getters and Setters
+    var minTextSize = 0f
+    var maxTextSize = 0f
+    var density = 1f
 
-    private float minTextSize;
-
-    private float maxTextSize;
-
-    private float density = 1;
-
-    public FontFitTextView(Context context) {
-        super(context);
-        initialize();
+    constructor(context: Context?) : super(context!!) {
+        initialize()
     }
 
-    public FontFitTextView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        initialize();
+    constructor(context: Context?, attrs: AttributeSet?) : super(context!!, attrs) {
+        initialize()
     }
 
-    private void initialize() {
-        Log.d(TAG, "FontFitTextView: initialize");
-        
-        testPaint = new Paint();
-        testPaint.set(this.getPaint());
+    private fun initialize() {
+        Log.d(TAG, "FontFitTextView: initialize")
+        testPaint.set(this.paint)
         // max size defaults to the initially specified text size unless it is
         // too small
-        /*maxTextSize = this.getTextSize();
-        if (maxTextSize < 11) {
-            maxTextSize = 20;
-        }*/
-        maxTextSize = 900;
-        minTextSize = 10;
+        /*
+        maxTextSize = this.textSize
+        if (maxTextSize < 11f) {
+            maxTextSize = 20f
+        }
+        */
+        maxTextSize = 900f
+        minTextSize = 10f
     }
 
-    public void setDensity(float density) {
-        this.density = density;
+    override fun onTextChanged(text: CharSequence, start: Int, before: Int, after: Int) {
+        refitText(text.toString(), this.width, this.height)
     }
 
-    @Override
-    protected void onTextChanged(final CharSequence text, final int start, final int before,
-            final int after) {
-        refitText(text.toString(), this.getWidth(), this.getHeight());
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         if (w != oldw || h != oldh) {
-            refitText(this.getText().toString(), w, h);
+            refitText(this.text.toString(), w, h)
         }
     }
 
@@ -67,54 +55,35 @@ public class FontFitTextView extends AppCompatTextView {
      * Re size the font so the specified text fits in the text box assuming the
      * text box is the specified width.
      */
-    final private void refitText(String text, int width, int height) {
-        if (width <= 0 || height <= 0)
-            return;
+    private fun refitText(text: String, width: Int, height: Int) {
+        if (width <= 0 || height <= 0) return
 
         // 表示可能領域サイズを取得 (dp単位)
-        int availableWidth = (int)((width - this.getPaddingLeft() - this.getPaddingRight()) / density);
-        int availableHeight = (int)((height - this.getPaddingTop() - this.getPaddingBottom()) / density);
-
-        float max = maxTextSize;
-        float min = minTextSize;
-        Rect textBounds = new Rect();
+        val availableWidth = ((width - this.paddingLeft - this.paddingRight) / density).toInt()
+        val availableHeight = ((height - this.paddingTop - this.paddingBottom) / density).toInt()
+        var max = maxTextSize
+        var min = minTextSize
+        val textBounds = Rect()
 
         // binary search an optimal font size
         while (true) {
-            float trySize = (max + min) / 2;
+            val trySize = (max + min) / 2
 
-            testPaint.setTextSize(trySize);
-            float textWidth = testPaint.measureText(text, 0, text.length());
-            testPaint.getTextBounds(text, 0, text.length(), textBounds);
+            testPaint.textSize = trySize
+            val textWidth = testPaint.measureText(text, 0, text.length)
+            testPaint.getTextBounds(text, 0, text.length, textBounds)
 
             if (textWidth < availableWidth && textBounds.height() < availableHeight) {
-                min = trySize;    
+                min = trySize
             } else {
-                max = trySize;
+                max = trySize
             }
 
             if (max - min < 1.0) {
-                Log.d(TAG, "font size = "+ min);
-                this.setTextSize(min);
-                break;
+                Log.d(TAG, "font size = $min")
+                this.textSize = min
+                break
             }
         }
-    }
-    
-    // Getters and Setters
-    public float getMinTextSize() {
-        return minTextSize;
-    }
-
-    public void setMinTextSize(int minTextSize) {
-        this.minTextSize = minTextSize;
-    }
-
-    public float getMaxTextSize() {
-        return maxTextSize;
-    }
-
-    public void setMaxTextSize(int minTextSize) {
-        this.maxTextSize = minTextSize;
     }
 }
