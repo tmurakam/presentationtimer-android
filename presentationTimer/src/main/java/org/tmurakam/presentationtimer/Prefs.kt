@@ -1,36 +1,28 @@
+package org.tmurakam.presentationtimer
 
-package org.tmurakam.presentationtimer;
-
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import android.content.Context
+import android.preference.PreferenceManager
 
 /**
  * プリファレンス
  */
-public class Prefs {
-    private SharedPreferences mPrefs;
+class Prefs(context: Context) {
+    private val mPrefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
 
     /**
      * デフォルトのベル鳴動時刻 (分)
      */
-    private final static int[] DEFAULT_BELL_TIMES = {
-            13, 15, 20
-    };
-
-    public Prefs(Context context) {
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-    }
+    private val DEFAULT_BELL_TIMES = intArrayOf(13, 15, 20)
 
     /**
      * ベル鳴動時刻取得
      * @param kind ベル番号(1-3)
      * @return
      */
-    public int getBellTime(int kind) {
-        assert (1 <= kind && kind <= 3);
-        int defValue = DEFAULT_BELL_TIMES[kind - 1] * 60;
-        return mPrefs.getInt("bell" + kind + "Time", defValue);
+    fun getBellTime(kind: Int): Int {
+        assert(kind in 1..3)
+        val defValue = DEFAULT_BELL_TIMES[kind - 1] * 60
+        return mPrefs.getInt("bell" + kind + "Time", defValue)
     }
 
     /**
@@ -38,40 +30,31 @@ public class Prefs {
      * @param kind ベル番号(1-3)
      * @param secs
      */
-    public void setBellTime(int kind, int secs) {
-        SharedPreferences.Editor editor = mPrefs.edit();
-        editor.putInt("bell" + kind + "Time", secs);
-        editor.apply();
+    fun setBellTime(kind: Int, secs: Int) {
+        val editor = mPrefs.edit()
+        editor.putInt("bell" + kind + "Time", secs)
+        editor.apply()
     }
 
     /**
      * プレゼン終了時刻ベル番号取得
-     * @return
      */
-    public int getCountDownTarget() {
-        return mPrefs.getInt("countDownTarget", 2);
-    }
-
-    /**
-     * プレゼン終了時刻ベル番号設定
-     * @param kind
-     */
-    public void setCountDownTarget(int kind) {
-        SharedPreferences.Editor editor = mPrefs.edit();
-        editor.putInt("countDownTarget", kind);
-        editor.apply();
-    }
+    var countDownTarget: Int
+        get() = mPrefs.getInt("countDownTarget", 2)
+        set(kind) {
+            val editor = mPrefs.edit()
+            editor.putInt("countDownTarget", kind)
+            editor.apply()
+        }
 
     /**
      * バイブレーションオプション
      */
-    public boolean getVibration() {
-        return mPrefs.getBoolean("vibration", true);
-    }
-
-    public void setVibration(boolean on) {
-        SharedPreferences.Editor editor = mPrefs.edit();
-        editor.putBoolean("vibration", on);
-        editor.apply();
-    }
+    var vibration: Boolean
+        get() = mPrefs.getBoolean("vibration", true)
+        set(on) {
+            val editor = mPrefs.edit()
+            editor.putBoolean("vibration", on)
+            editor.apply()
+        }
 }
