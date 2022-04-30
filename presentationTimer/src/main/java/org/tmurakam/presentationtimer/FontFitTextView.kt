@@ -16,8 +16,8 @@ class FontFitTextView : AppCompatTextView {
     private var testPaint: Paint = Paint()
 
     // Getters and Setters
-    var minTextSize = 0f
-    var maxTextSize = 0f
+    private var minTextSize = 0f
+    private var maxTextSize = 0f
     var density = 1f
 
     constructor(context: Context?) : super(context!!) {

@@ -87,7 +87,7 @@ class PrefActivity : PreferenceActivity() {
 
     private fun updateUi() {
         for (i in 1..3) {
-            var ps = findPreference("_" + i + "bell")
+            val ps = findPreference("_" + i + "bell")
 
             val time = mPrefs.getBellTime(i)
             val hour = time / 3600

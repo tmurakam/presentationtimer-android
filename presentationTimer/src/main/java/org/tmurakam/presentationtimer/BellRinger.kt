@@ -66,7 +66,7 @@ class BellRinger(context: Context) {
         val pattern = mVibratorPattern[n]
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mVibrator.vibrate(VibrationEffect.createWaveform(pattern, -1));
+            mVibrator.vibrate(VibrationEffect.createWaveform(pattern, -1))
         } else {
             @Suppress("DEPRECATION")
             mVibrator.vibrate(pattern, -1)

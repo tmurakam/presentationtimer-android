@@ -151,7 +151,7 @@ class MainActivity : Activity(), TimerCallback {
     /**
      * Toggle count down mode
      */
-    fun onClickTime(v: View?) {
+    private fun onClickTime(v: View?) {
         mIsCountDown = !mIsCountDown
         updateTimeLabel()
     }
