@@ -81,6 +81,8 @@ class MainActivity : Activity(), TimerCallback {
         mStartStopButton = findViewById(R.id.startStop)
         mResetButton = findViewById(R.id.reset)
 
+        mTextView.setOnClickListener { onClickTime(it) }
+
         // scaled density 取得
         val metrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(metrics)

@@ -15,7 +15,6 @@
         android:clickable="true"
         android:gravity="center_vertical|center_horizontal"
         android:includeFontPadding="false"
-        android:onClick="onClickTime"
         android:text="00:00"
         android:textColor="#fff"
         android:textSize="30sp" />
