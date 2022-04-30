@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.preference.CheckBoxPreference
 import android.preference.Preference.OnPreferenceChangeListener
 import android.preference.PreferenceActivity
-import android.preference.PreferenceScreen
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem

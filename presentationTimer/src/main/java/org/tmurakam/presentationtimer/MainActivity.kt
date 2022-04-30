@@ -23,6 +23,10 @@ class MainActivity : Activity(), TimerCallback {
     companion object {
         private val TAG = MainActivity::class.java.simpleName
         private const val KEY_IS_COUNTDOWN = "isCountDown"
+
+        private const val COLOR_T1 = Color.YELLOW
+        private val COLOR_T2 = Color.parseColor("#ffff33cc")
+        private const val COLOR_T3 = Color.RED
     }
 
     /** 表示モード:カウントダウンモードなら真  */
@@ -110,14 +114,14 @@ class MainActivity : Activity(), TimerCallback {
     fun onClickStartStop(v: View?) {
         mTimerLogic.toggleTimer()
 
+        /*
         if (mTimerLogic.isTimerWorking) {
             // ナビゲーションバーを隠す
-            /*
             if (Build.VERSION.SDK_INT >= 11) {
                 getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
             }
-            */
         }
+        */
 
         updateUiStates()
     }
@@ -200,15 +204,19 @@ class MainActivity : Activity(), TimerCallback {
 
         mTextView.text = timeText(t)
 
-        val col: Int
-        col = if (currentTime >= mPrefs.getBellTime(3)) {
-            Color.RED // 0xffff0000
-        } else if (currentTime >= mPrefs.getBellTime(2)) {
-            -0xcc34
-        } else if (currentTime >= mPrefs.getBellTime(1)) {
-            Color.YELLOW // 0xffffff00
-        } else {
-            Color.WHITE // 0xffffffff
+        val col: Int = when {
+            currentTime >= mPrefs.getBellTime(3) -> {
+                COLOR_T3
+            }
+            currentTime >= mPrefs.getBellTime(2) -> {
+                COLOR_T2
+            }
+            currentTime >= mPrefs.getBellTime(1) -> {
+                COLOR_T1
+            }
+            else -> {
+                Color.WHITE // 0xffffffff
+            }
         }
         mTextView.setTextColor(col)
     }
