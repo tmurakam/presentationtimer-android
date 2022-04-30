@@ -1,7 +1,7 @@
 package org.tmurakam.presentationtimer
 
 import android.content.Context
-import android.preference.PreferenceManager
+import android.content.SharedPreferences
 
 /**
  * プリファレンス
@@ -14,7 +14,12 @@ class Prefs(context: Context) {
         private val DEFAULT_BELL_TIMES = intArrayOf(13, 15, 20)
     }
 
-    private val mPrefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
+    private val mSharedPrefs: SharedPreferences
+
+    init {
+        val c = context.applicationContext
+        mSharedPrefs = c.getSharedPreferences(c.packageName + "_preferences", Context.MODE_PRIVATE)
+    }
 
     /**
      * ベル鳴動時刻取得
@@ -24,7 +29,7 @@ class Prefs(context: Context) {
     fun getBellTime(kind: Int): Int {
         assert(kind in 1..3)
         val defValue = DEFAULT_BELL_TIMES[kind - 1] * 60
-        return mPrefs.getInt("bell" + kind + "Time", defValue)
+        return mSharedPrefs.getInt("bell" + kind + "Time", defValue)
     }
 
     /**
@@ -33,7 +38,7 @@ class Prefs(context: Context) {
      * @param secs
      */
     fun setBellTime(kind: Int, secs: Int) {
-        val editor = mPrefs.edit()
+        val editor = mSharedPrefs.edit()
         editor.putInt("bell" + kind + "Time", secs)
         editor.apply()
     }
@@ -42,9 +47,9 @@ class Prefs(context: Context) {
      * プレゼン終了時刻ベル番号取得
      */
     var countDownTarget: Int
-        get() = mPrefs.getInt("countDownTarget", 2)
+        get() = mSharedPrefs.getInt("countDownTarget", 2)
         set(kind) {
-            val editor = mPrefs.edit()
+            val editor = mSharedPrefs.edit()
             editor.putInt("countDownTarget", kind)
             editor.apply()
         }
@@ -53,9 +58,9 @@ class Prefs(context: Context) {
      * バイブレーションオプション
      */
     var vibration: Boolean
-        get() = mPrefs.getBoolean("vibration", true)
+        get() = mSharedPrefs.getBoolean("vibration", true)
         set(on) {
-            val editor = mPrefs.edit()
+            val editor = mSharedPrefs.edit()
             editor.putBoolean("vibration", on)
             editor.apply()
         }
