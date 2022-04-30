@@ -1,46 +1,43 @@
-package org.tmurakam.presentationtimer;
+package org.tmurakam.presentationtimer
 
-import android.net.Uri;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
-import android.app.Activity;
-import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
+import android.app.Activity
+import android.os.Bundle
+import android.widget.TextView
+import android.content.pm.PackageManager
+import android.content.Intent
+import android.net.Uri
+import android.view.View
 
-public class InfoActivity extends Activity {
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.info);
+class InfoActivity : Activity() {
+    public override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.info)
 
-        TextView textAppName = (TextView)findViewById(R.id.TextAppName);
-        textAppName.setText(R.string.app_name);
+        val textAppName = findViewById<View>(R.id.TextAppName) as TextView
+        textAppName.setText(R.string.app_name)
 
-        TextView textVersion = (TextView)findViewById(R.id.TextVersion);
-        String version = "?";
+        val textVersion = findViewById<View>(R.id.TextVersion) as TextView
+        var version = "?"
         try {
-            String pkgname = this.getPackageName();
-            PackageInfo pi = getPackageManager().getPackageInfo(pkgname, 0);
-            version = pi.versionName;
-        } catch (NameNotFoundException e) {
+            val pkgname = this.packageName
+            val pi = packageManager.getPackageInfo(pkgname, 0)
+            version = pi.versionName
+        } catch (e: PackageManager.NameNotFoundException) {
         }
-        textVersion.setText(String.format("Version %s", version));
+        textVersion.text = String.format("Version %s", version)
     }
 
-    public void onClickHelp(View v) {
-        String url = getResources().getString(R.string.help_url);
-
-        openBrowser(url);
+    fun onClickHelp(v: View?) {
+        val url = resources.getString(R.string.help_url)
+        openBrowser(url)
     }
 
-    private void openBrowser(String url) {
-        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        startActivity(i);
+    private fun openBrowser(url: String) {
+        val i = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        startActivity(i)
     }
 
-    public void onClickPrivacyPolicy(View v) {
-        openBrowser("http://apps.tmurakam.org/privacy_policy.html");
+    fun onClickPrivacyPolicy(v: View?) {
+        openBrowser("http://apps.tmurakam.org/privacy_policy.html")
     }
 }
