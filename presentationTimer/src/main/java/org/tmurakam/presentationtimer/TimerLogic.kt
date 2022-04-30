@@ -7,9 +7,11 @@ import java.util.*
  * タイマロジック
  */
 class TimerLogic(private val mTimerCallback: TimerCallback) {
-    private val KEY_CURRENT_TIME = "currentTime"
-    private val KEY_IS_TIMER_WORKING = "isTimerWorking"
-    private val KEY_SUSPENDED_TIME = "suspendedTime"
+    companion object {
+        private const val KEY_CURRENT_TIME = "currentTime"
+        private const val KEY_IS_TIMER_WORKING = "isTimerWorking"
+        private const val KEY_SUSPENDED_TIME = "suspendedTime"
+    }
 
     /**
      * タイマコールバック

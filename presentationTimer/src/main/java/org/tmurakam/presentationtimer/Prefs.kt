@@ -7,12 +7,14 @@ import android.preference.PreferenceManager
  * プリファレンス
  */
 class Prefs(context: Context) {
-    private val mPrefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
+    companion object {
+        /**
+         * デフォルトのベル鳴動時刻 (分)
+         */
+        private val DEFAULT_BELL_TIMES = intArrayOf(13, 15, 20)
+    }
 
-    /**
-     * デフォルトのベル鳴動時刻 (分)
-     */
-    private val DEFAULT_BELL_TIMES = intArrayOf(13, 15, 20)
+    private val mPrefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
 
     /**
      * ベル鳴動時刻取得

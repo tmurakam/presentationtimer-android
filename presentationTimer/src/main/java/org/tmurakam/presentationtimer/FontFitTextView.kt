@@ -9,7 +9,9 @@ import androidx.appcompat.widget.AppCompatTextView
 
 // http://stackoverflow.com/questions/2617266/how-to-adjust-text-font-size-to-fit-textview
 class FontFitTextView : AppCompatTextView {
-    private val TAG = FontFitTextView::class.java.simpleName
+    companion object {
+        private val TAG = FontFitTextView::class.java.simpleName
+    }
 
     private var testPaint: Paint = Paint()
 
