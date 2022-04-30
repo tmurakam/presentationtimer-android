@@ -1,146 +1,144 @@
+package org.tmurakam.presentationtimer
 
-package org.tmurakam.presentationtimer;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.preference.CheckBoxPreference;
-import android.preference.Preference;
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceScreen;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.LinearLayout;
-
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
+import android.content.Intent
+import android.os.Bundle
+import android.preference.CheckBoxPreference
+import android.preference.Preference.OnPreferenceChangeListener
+import android.preference.PreferenceActivity
+import android.preference.PreferenceScreen
+import android.view.Gravity
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.LinearLayout
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
 
 /**
  * 設定Activity
  */
-public class PrefActivity extends PreferenceActivity {
-    private Prefs mPrefs;
+class PrefActivity : PreferenceActivity() {
+    companion object {
+        private const val AD_UNIT_ID = "ca-app-pub-4621925249922081/5594984304"
+    }
 
-    private static final String AD_UNIT_ID = "ca-app-pub-4621925249922081/5594984304";
+    private var mPrefs: Prefs? = null
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-        addPreferencesFromResource(R.xml.pref);
+        addPreferencesFromResource(R.xml.pref)
 
-        mPrefs = new Prefs(this);
+        mPrefs = Prefs(this)
+        var ps: PreferenceScreen
+        var intent: Intent
 
-        PreferenceScreen ps;
-        Intent intent;
-
-        for (int i = 1; i <= 3; i++) {
-            ps = (PreferenceScreen) findPreference("_" + i + "bell");
-            assert (ps != null);
-            intent = new Intent(this, TimeSetActivity.class);
-            intent.putExtra("kind", i);
-            ps.setIntent(intent);
+        for (i in 1..3) {
+            ps = findPreference("_" + i + "bell") as PreferenceScreen
+            assert(ps != null)
+            intent = Intent(this, TimeSetActivity::class.java)
+            intent.putExtra("kind", i)
+            ps.intent = intent
         }
 
-        CheckBoxPreference cp = (CheckBoxPreference)findPreference("vibration");
-        cp.setChecked(mPrefs.getVibration());
+        val cp = findPreference("vibration") as CheckBoxPreference
+        cp.isChecked = mPrefs!!.vibration
 
-        cp.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                mPrefs.setVibration((Boolean)newValue);
-                return true;
-            }
-        });
+        cp.onPreferenceChangeListener = OnPreferenceChangeListener { preference, newValue ->
+            mPrefs!!.vibration = (newValue as Boolean)
+            true
+        }
 
-        updateUi();
-
-        addAds();
+        updateUi()
+        addAds()
     }
 
-    private void addAds() {
+    private fun addAds() {
         // add AdMob
-        AdView adView = new AdView(this);
-        adView.setAdUnitId(AD_UNIT_ID);
-        adView.setAdSize(AdSize.SMART_BANNER);
+        val adView = AdView(this)
+        adView.adUnitId = AD_UNIT_ID
+        adView.adSize = AdSize.SMART_BANNER
 
-        LinearLayout.LayoutParams adLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        adView.setLayoutParams(adLayoutParams);
+        val adLayoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        adView.layoutParams = adLayoutParams
 
         // 広告表示位置は画面下部
-        LinearLayout layout = new LinearLayout(this);
-        layout.addView(adView);
-        layout.setGravity(Gravity.BOTTOM);
+        val layout = LinearLayout(this)
+        layout.addView(adView)
+        layout.gravity = Gravity.BOTTOM
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        addContentView(layout, layoutParams);
+        val layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.MATCH_PARENT
+        )
+        addContentView(layout, layoutParams)
 
         // load ad
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateUi();
+    public override fun onResume() {
+        super.onResume()
+        updateUi()
     }
 
-    private void updateUi() {
-        PreferenceScreen ps;
+    private fun updateUi() {
+        var ps: PreferenceScreen
 
-        for (int i = 1; i <= 3; i++) {
-            ps = (PreferenceScreen)findPreference("_" + i + "bell");
-            assert (ps != null);
+        for (i in 1..3) {
+            ps = findPreference("_" + i + "bell") as PreferenceScreen
+            assert(ps != null)
 
-            int time = mPrefs.getBellTime(i);
-            int hour = time / 3600;
-            int min = (time / 60) % 60;
-            int sec = time % 60;
-            
-            String s = "";
+            val time = mPrefs!!.getBellTime(i)
+            val hour = time / 3600
+            val min = time / 60 % 60
+            val sec = time % 60
+
+            var s = ""
             if (hour > 0) {
-                s += hour;
-                s += getResources().getString(R.string.hours);
-                s += " ";
+                s += hour
+                s += resources.getString(R.string.hours)
+                s += " "
             }
             if (min > 0) {
-                s += min;
-                s += getResources().getString(R.string.minutes);
-                s += " ";
+                s += min
+                s += resources.getString(R.string.minutes)
+                s += " "
             }
             if (sec > 0) {
-                s += sec;
-                s += getResources().getString(R.string.seconds);
+                s += sec
+                s += resources.getString(R.string.seconds)
             }
 
-            if (i == mPrefs.getCountDownTarget()) {
-                s += ", ";
-                s += getResources().getString(R.string.end_time);
+            if (i == mPrefs!!.countDownTarget) {
+                s += ", "
+                s += resources.getString(R.string.end_time)
             }
-            ps.setSummary(s);
+            ps.summary = s
         }
     }
 
     // --- Menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.pref_menu, menu);
-        return super.onCreateOptionsMenu(menu);
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.pref_menu, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val intent: Intent
 
-        switch (item.getItemId()) {
-            case R.id.menu_help:
-                intent = new Intent(this, InfoActivity.class);
-                startActivity(intent);
-                return true;
+        when (item.itemId) {
+            R.id.menu_help -> {
+                intent = Intent(this, InfoActivity::class.java)
+                startActivity(intent)
+                return true
+            }
         }
 
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item)
     }
 }
