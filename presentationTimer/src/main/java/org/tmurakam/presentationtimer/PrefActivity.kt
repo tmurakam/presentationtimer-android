@@ -22,30 +22,28 @@ class PrefActivity : PreferenceActivity() {
         private const val AD_UNIT_ID = "ca-app-pub-4621925249922081/5594984304"
     }
 
-    private var mPrefs: Prefs? = null
+    private var mPrefs: Prefs = Prefs(this)
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         addPreferencesFromResource(R.xml.pref)
 
-        mPrefs = Prefs(this)
-        var ps: PreferenceScreen
         var intent: Intent
 
         for (i in 1..3) {
-            ps = findPreference("_" + i + "bell") as PreferenceScreen
-            assert(ps != null)
+            var ps = findPreference("_" + i + "bell")
+
             intent = Intent(this, TimeSetActivity::class.java)
             intent.putExtra("kind", i)
             ps.intent = intent
         }
 
         val cp = findPreference("vibration") as CheckBoxPreference
-        cp.isChecked = mPrefs!!.vibration
+        cp.isChecked = mPrefs.vibration
 
         cp.onPreferenceChangeListener = OnPreferenceChangeListener { preference, newValue ->
-            mPrefs!!.vibration = (newValue as Boolean)
+            mPrefs.vibration = (newValue as Boolean)
             true
         }
 
@@ -87,13 +85,10 @@ class PrefActivity : PreferenceActivity() {
     }
 
     private fun updateUi() {
-        var ps: PreferenceScreen
-
         for (i in 1..3) {
-            ps = findPreference("_" + i + "bell") as PreferenceScreen
-            assert(ps != null)
+            var ps = findPreference("_" + i + "bell")
 
-            val time = mPrefs!!.getBellTime(i)
+            val time = mPrefs.getBellTime(i)
             val hour = time / 3600
             val min = time / 60 % 60
             val sec = time % 60
@@ -114,7 +109,7 @@ class PrefActivity : PreferenceActivity() {
                 s += resources.getString(R.string.seconds)
             }
 
-            if (i == mPrefs!!.countDownTarget) {
+            if (i == mPrefs.countDownTarget) {
                 s += ", "
                 s += resources.getString(R.string.end_time)
             }

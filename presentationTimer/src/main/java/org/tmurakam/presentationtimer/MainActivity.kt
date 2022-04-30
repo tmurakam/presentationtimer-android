@@ -40,11 +40,11 @@ class MainActivity : Activity(), TimerCallback {
     private var mBellRinger = BellRinger(this)
 
     /** 現在時間表示ビュー  */
-    private var mTextView: FontFitTextView? = null
+    private lateinit var mTextView: FontFitTextView
 
     /** ボタン  */
-    private var mStartStopButton: Button? = null
-    private var mResetButton: Button? = null
+    private lateinit var mStartStopButton: Button
+    private lateinit var mResetButton: Button
 
     /** ActionBar  */
     private var mActionBar: ActionBar? = null
@@ -75,7 +75,7 @@ class MainActivity : Activity(), TimerCallback {
         // scaled density 取得
         val metrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(metrics)
-        mTextView!!.density = metrics.scaledDensity
+        mTextView.density = metrics.scaledDensity
         Log.d(TAG, "Density = " + metrics.scaledDensity)
 
         savedInstanceState?.let { restoreInstanceState(it) }
@@ -173,12 +173,12 @@ class MainActivity : Activity(), TimerCallback {
      */
     private fun updateUiStates() {
         if (!mTimerLogic.isTimerWorking) {
-            mStartStopButton!!.setText(R.string.start)
-            mResetButton!!.isEnabled = true
+            mStartStopButton.setText(R.string.start)
+            mResetButton.isEnabled = true
             window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         } else {
-            mStartStopButton!!.setText(R.string.pause)
-            mResetButton!!.isEnabled = false
+            mStartStopButton.setText(R.string.pause)
+            mResetButton.isEnabled = false
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
     }
@@ -198,7 +198,7 @@ class MainActivity : Activity(), TimerCallback {
             if (t < 0) t = -t
         }
 
-        mTextView!!.text = timeText(t)
+        mTextView.text = timeText(t)
 
         val col: Int
         col = if (currentTime >= mPrefs.getBellTime(3)) {
@@ -210,7 +210,7 @@ class MainActivity : Activity(), TimerCallback {
         } else {
             Color.WHITE // 0xffffffff
         }
-        mTextView!!.setTextColor(col)
+        mTextView.setTextColor(col)
     }
 
     private fun timeText(n: Int): String {
