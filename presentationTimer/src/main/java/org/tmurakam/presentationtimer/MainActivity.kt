@@ -1,129 +1,116 @@
+package org.tmurakam.presentationtimer
 
-package org.tmurakam.presentationtimer;
-
-import android.app.ActionBar;
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Color;
-import android.media.AudioManager;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
-
-import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import android.app.ActionBar
+import android.app.Activity
+import android.content.Intent
+import android.graphics.Color
+import android.media.AudioManager
+import android.os.Bundle
+import android.os.Handler
+import android.util.DisplayMetrics
+import android.util.Log
+import android.view.View
+import android.view.WindowManager
+import android.widget.Button
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import org.tmurakam.presentationtimer.TimerLogic.TimerCallback
 
 /**
  * メインアクティビティ
  */
-public class MainActivity extends Activity implements TimerLogic.TimerCallback {
-    private final static String TAG = MainActivity.class.getSimpleName();
+class MainActivity : Activity(), TimerCallback {
+    companion object {
+        private val TAG = MainActivity::class.java.simpleName
+        private const val KEY_IS_COUNTDOWN = "isCountDown"
+    }
 
-    private final static String KEY_IS_COUNTDOWN = "isCountDown";
+    /** 表示モード:カウントダウンモードなら真  */
+    private var mIsCountDown = false
 
-    /** 表示モード:カウントダウンモードなら真 */
-    private boolean mIsCountDown = false;
+    /** プリファレンス　  */
+    private var mPrefs = Prefs(this)
 
-    /** プリファレンス　 */
-    private Prefs mPrefs;
+    /** タイマロジック  */
+    private val mTimerLogic = TimerLogic(this)
 
-    /** タイマロジック */
-    private TimerLogic mTimerLogic = new TimerLogic(this);
+    /** タイマハンドラ  */
+    private val mHandler = Handler()
 
-    /** タイマハンドラ */
-    private Handler mHandler = new Handler();
+    private var mBellRinger = BellRinger(this)
 
-    private BellRinger mBellRinger;
+    /** 現在時間表示ビュー  */
+    private var mTextView: FontFitTextView? = null
 
-    /** 現在時間表示ビュー */
-    private FontFitTextView mTextView;
+    /** ボタン  */
+    private var mStartStopButton: Button? = null
+    private var mResetButton: Button? = null
 
-    /** ボタン */
-    private Button mStartStopButton, mResetButton;
+    /** ActionBar  */
+    private var mActionBar: ActionBar? = null
 
-    /** ActionBar */
-    private ActionBar mActionBar;
-
-    /** Called when the activity is first created. */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    /** Called when the activity is first created.  */
+    public override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         // Firebase Crashlytics
-        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true);
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true)
 
         // Firebase Analytics
-        FirebaseAnalytics.getInstance(this);
-
-        mActionBar = getActionBar();
-        mActionBar.hide();
-        setContentView(R.layout.main);
+        FirebaseAnalytics.getInstance(this)
+        mActionBar = actionBar
+        mActionBar?.hide()
+        setContentView(R.layout.main)
 
         // ステータスバーを消す
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
         // 音量ボタンで、Media ボリュームが変わるようにする
-        setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        volumeControlStream = AudioManager.STREAM_MUSIC
 
-        mTextView = (FontFitTextView) findViewById(R.id.timeView);
-        mStartStopButton = (Button) findViewById(R.id.startStop);
-        mResetButton = (Button) findViewById(R.id.reset);
+        mTextView = findViewById(R.id.timeView)
+        mStartStopButton = findViewById(R.id.startStop)
+        mResetButton = findViewById(R.id.reset)
 
         // scaled density 取得
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        mTextView.setDensity(metrics.scaledDensity);
-        Log.d(TAG, "Density = " + metrics.scaledDensity);
+        val metrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(metrics)
+        mTextView!!.density = metrics.scaledDensity
+        Log.d(TAG, "Density = " + metrics.scaledDensity)
 
-        mPrefs = new Prefs(this);
-
-        mBellRinger = new BellRinger(this);
-
-        if (savedInstanceState != null) {
-            restoreInstanceState(savedInstanceState);
-        }
-        updateTimeLabel();
-        updateUiStates();
+        savedInstanceState?.let { restoreInstanceState(it) }
+        updateTimeLabel()
+        updateUiStates()
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle st) {
-        st.putBoolean(KEY_IS_COUNTDOWN, mIsCountDown);
-        mTimerLogic.onSaveInstanceState(st);
+    public override fun onSaveInstanceState(st: Bundle) {
+        st.putBoolean(KEY_IS_COUNTDOWN, mIsCountDown)
+        mTimerLogic.onSaveInstanceState(st)
     }
 
-    private void restoreInstanceState(Bundle st) {
-        mIsCountDown = st.getBoolean(KEY_IS_COUNTDOWN);
-        mTimerLogic.restoreInstanceState(st);
+    private fun restoreInstanceState(st: Bundle) {
+        mIsCountDown = st.getBoolean(KEY_IS_COUNTDOWN)
+        mTimerLogic.restoreInstanceState(st)
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateTimeLabel();
+    public override fun onResume() {
+        super.onResume()
+        updateTimeLabel()
     }
 
-    @Override
-    public void onDestroy() {
-        mTimerLogic.stopTimer();
-        mBellRinger.release();
-
-        super.onDestroy();
+    public override fun onDestroy() {
+        mTimerLogic.stopTimer()
+        mBellRinger.release()
+        super.onDestroy()
     }
-    
+
     /**
      * Start or stop timer (toggle)
      */
-    public void onClickStartStop(View v) {
-        mTimerLogic.toggleTimer();
+    fun onClickStartStop(v: View?) {
+        mTimerLogic.toggleTimer()
 
-        if (mTimerLogic.isTimerWorking()) {
+        if (mTimerLogic.isTimerWorking) {
             // ナビゲーションバーを隠す
             /*
             if (Build.VERSION.SDK_INT >= 11) {
@@ -132,115 +119,108 @@ public class MainActivity extends Activity implements TimerLogic.TimerCallback {
             */
         }
 
-        updateUiStates();
+        updateUiStates()
     }
 
     /**
      * Reset timer value
      */
-    public void onClickReset(View v) {
-        mTimerLogic.reset();
-        updateTimeLabel();
+    fun onClickReset(v: View?) {
+        mTimerLogic.reset()
+        updateTimeLabel()
     }
 
     /**
      * Ring bell manually
      */
-    public void onClickBell(View v) {
-        mBellRinger.ringBell(0);
+    fun onClickBell(v: View?) {
+        mBellRinger.ringBell(0)
     }
 
     /**
      * Toggle count down mode
      */
-    public void onClickTime(View v) {
-        mIsCountDown = !mIsCountDown;
-        updateTimeLabel();
+    fun onClickTime(v: View?) {
+        mIsCountDown = !mIsCountDown
+        updateTimeLabel()
     }
 
     /**
      * Timer handler : called for each 1 second.
      */
-    @Override
-    public void onTimerUpdate() {
-        mHandler.post(new Runnable() {
-            public void run() {
-                onTimerOnMainThread();
-            }
-        });
+    override fun onTimerUpdate() {
+        mHandler.post { onTimerOnMainThread() }
     }
 
-    private void onTimerOnMainThread() {
-        int currentTime = mTimerLogic.currentTime();
+    private fun onTimerOnMainThread() {
+        val currentTime = mTimerLogic.currentTime()
 
-        for (int i = 0; i < 3; i++) {
+        for (i in 0..2) {
             if (currentTime == mPrefs.getBellTime(i + 1)) {
-                mBellRinger.ringBell(i);
-                if (mPrefs.getVibration()) {
-                    mBellRinger.vibrate(i);
+                mBellRinger.ringBell(i)
+                if (mPrefs.vibration) {
+                    mBellRinger.vibrate(i)
                 }
-                break;
+                break
             }
         }
 
-        updateTimeLabel();
+        updateTimeLabel()
     }
 
     /**
      * Update button states
      */
-    private void updateUiStates() {
-        if (!mTimerLogic.isTimerWorking()) {
-            mStartStopButton.setText(R.string.start);
-            mResetButton.setEnabled(true);
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    private fun updateUiStates() {
+        if (!mTimerLogic.isTimerWorking) {
+            mStartStopButton!!.setText(R.string.start)
+            mResetButton!!.isEnabled = true
+            window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         } else {
-            mStartStopButton.setText(R.string.pause);
-            mResetButton.setEnabled(false);
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            mStartStopButton!!.setText(R.string.pause)
+            mResetButton!!.isEnabled = false
+            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
     }
 
     /**
      * Update time label
      */
-    private void updateTimeLabel() {
-        int currentTime = mTimerLogic.currentTime();
-        int t;
+    private fun updateTimeLabel() {
+        val currentTime = mTimerLogic.currentTime()
+        var t: Int
 
         if (!mIsCountDown) {
-            t = currentTime;
+            t = currentTime
         } else {
-            int target = mPrefs.getBellTime(mPrefs.getCountDownTarget());
-            t = target - currentTime;
-            if (t < 0)
-                t = -t;
+            val target = mPrefs.getBellTime(mPrefs.countDownTarget)
+            t = target - currentTime
+            if (t < 0) t = -t
         }
 
-        mTextView.setText(timeText(t));
+        mTextView!!.text = timeText(t)
 
-        int col;
-        if (currentTime >= mPrefs.getBellTime(3)) {
-            col = Color.RED; // 0xffff0000
+        val col: Int
+        col = if (currentTime >= mPrefs.getBellTime(3)) {
+            Color.RED // 0xffff0000
         } else if (currentTime >= mPrefs.getBellTime(2)) {
-            col = 0xffff33cc;
+            -0xcc34
         } else if (currentTime >= mPrefs.getBellTime(1)) {
-            col = Color.YELLOW; // 0xffffff00
+            Color.YELLOW // 0xffffff00
         } else {
-            col = Color.WHITE; // 0xffffffff
+            Color.WHITE // 0xffffffff
         }
-        mTextView.setTextColor(col);
+        mTextView!!.setTextColor(col)
     }
 
-    private String timeText(int n) {
-        int min = n / 60;
-        int sec = n % 60;
-        String ts = String.format("%02d:%02d", min, sec);
-        return ts;
+    private fun timeText(n: Int): String {
+        val min = n / 60
+        val sec = n % 60
+        return String.format("%02d:%02d", min, sec)
     }
 
-    public void onClickConfig(View v) {
-        Intent intent = new Intent(this, PrefActivity.class);
-        startActivity(intent);
+    fun onClickConfig(v: View?) {
+        val intent = Intent(this, PrefActivity::class.java)
+        startActivity(intent)
     }
 }
