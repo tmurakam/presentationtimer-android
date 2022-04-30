@@ -192,8 +192,8 @@ class MainActivity : Activity(), TimerCallback {
      */
     private fun updateTimeLabel() {
         val currentTime = mTimerLogic.currentTime()
-        var t: Int
 
+        var t: Int
         if (!mIsCountDown) {
             t = currentTime
         } else {
@@ -201,7 +201,6 @@ class MainActivity : Activity(), TimerCallback {
             t = target - currentTime
             if (t < 0) t = -t
         }
-
         mTextView.text = timeText(t)
 
         val col: Int = when {

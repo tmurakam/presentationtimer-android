@@ -13,10 +13,14 @@ class InfoActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.info)
 
-        val textAppName = findViewById<View>(R.id.TextAppName) as TextView
+        val textAppName: TextView = findViewById(R.id.TextAppName)
         textAppName.setText(R.string.app_name)
 
-        val textVersion = findViewById<View>(R.id.TextVersion) as TextView
+        val textVersion: TextView = findViewById(R.id.TextVersion)
+        textVersion.text = String.format("Version %s", getVersion())
+    }
+
+    private fun getVersion(): String {
         var version = "?"
         try {
             val pkgname = this.packageName
@@ -24,7 +28,7 @@ class InfoActivity : Activity() {
             version = pi.versionName
         } catch (e: PackageManager.NameNotFoundException) {
         }
-        textVersion.text = String.format("Version %s", version)
+        return version
     }
 
     fun onClickHelp(v: View?) {
