@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.media.AudioManager
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
@@ -33,15 +34,15 @@ class MainActivity : Activity(), TimerCallback {
     private var mIsCountDown = false
 
     /** プリファレンス　  */
-    private var mPrefs = Prefs(this)
+    private lateinit var mPrefs: Prefs
 
     /** タイマロジック  */
     private val mTimerLogic = TimerLogic(this)
 
     /** タイマハンドラ  */
-    private val mHandler = Handler()
+    private val mHandler = Handler(Looper.myLooper()!!)
 
-    private var mBellRinger = BellRinger(this)
+    private lateinit var mBellRinger: BellRinger
 
     /** 現在時間表示ビュー  */
     private lateinit var mTextView: FontFitTextView
@@ -57,11 +58,15 @@ class MainActivity : Activity(), TimerCallback {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        mPrefs = Prefs(this)
+        mBellRinger = BellRinger(this)
+
         // Firebase Crashlytics
         FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true)
 
         // Firebase Analytics
         FirebaseAnalytics.getInstance(this)
+
         mActionBar = actionBar
         mActionBar?.hide()
         setContentView(R.layout.main)

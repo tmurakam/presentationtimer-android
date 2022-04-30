@@ -13,10 +13,12 @@ class TimeSetActivity : Activity() {
     private var mKind = 0
     private lateinit var mTimePicker: TimePicker
     private lateinit var mCheckIsEndTime: CheckBox
-    private var mPrefs = Prefs(this)
+    private lateinit var mPrefs: Prefs
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        mPrefs = Prefs(this)
 
         //setTheme(R.style.MyDialog);
         setContentView(R.layout.time_set)

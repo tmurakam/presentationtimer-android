@@ -21,17 +21,19 @@ class PrefActivity : PreferenceActivity() {
         private const val AD_UNIT_ID = "ca-app-pub-4621925249922081/5594984304"
     }
 
-    private var mPrefs: Prefs = Prefs(this)
+    private lateinit var mPrefs: Prefs
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        mPrefs = Prefs(this)
 
         addPreferencesFromResource(R.xml.pref)
 
         var intent: Intent
 
         for (i in 1..3) {
-            var ps = findPreference("_" + i + "bell")
+            val ps = findPreference("_" + i + "bell")
 
             intent = Intent(this, TimeSetActivity::class.java)
             intent.putExtra("kind", i)
