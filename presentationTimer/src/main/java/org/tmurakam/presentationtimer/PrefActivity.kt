@@ -56,7 +56,7 @@ class PrefActivity : PreferenceActivity() {
         // add AdMob
         val adView = AdView(this)
         adView.adUnitId = AD_UNIT_ID
-        adView.adSize = AdSize.SMART_BANNER
+        adView.setAdSize(AdSize.SMART_BANNER);
 
         val adLayoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
