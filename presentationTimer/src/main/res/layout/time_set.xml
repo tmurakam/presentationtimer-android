@@ -6,6 +6,12 @@
     android:layout_height="fill_parent"
     android:gravity="top|center_horizontal">
 
+    <com.ikovac.timepickerwithseconds.view.TimePicker
+        android:id="@+id/TimePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="180sp"
+        android:layout_margin="8sp"/>
+
     <CheckBox
         android:id="@+id/CheckUseAsEndTime"
         android:layout_width="wrap_content"
@@ -18,12 +24,6 @@
         android:text="@string/use_as_end_time"
         android:visibility="visible"
         tools:visibility="visible" />
-
-    <com.ikovac.timepickerwithseconds.view.TimePicker
-        android:id="@+id/TimePicker"
-        android:layout_width="wrap_content"
-        android:layout_height="180sp"
-        android:layout_margin="8sp"/>
 
     <LinearLayout
         android:id="@+id/LinearLayout01"
