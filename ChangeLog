@@ -8,6 +8,7 @@
 	* Fabric -> Firebase 移行
 	* import TimePickerWithSeconds
 	* Update gradle tools 8.0.x, etc
+	* Analytics / Ads 削除
 
 2018/09/18 : Takuya Murakami
 

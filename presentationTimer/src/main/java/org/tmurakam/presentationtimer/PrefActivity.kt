@@ -9,16 +9,16 @@ import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.LinearLayout
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
-import com.google.android.gms.ads.AdView
+//import com.google.android.gms.ads.AdRequest
+//import com.google.android.gms.ads.AdSize
+//import com.google.android.gms.ads.AdView
 
 /**
  * 設定Activity
  */
 class PrefActivity : PreferenceActivity() {
     companion object {
-        private const val AD_UNIT_ID = "ca-app-pub-4621925249922081/5594984304"
+        //private const val AD_UNIT_ID = "ca-app-pub-4621925249922081/5594984304"
     }
 
     private lateinit var mPrefs: Prefs
@@ -49,9 +49,10 @@ class PrefActivity : PreferenceActivity() {
         }
 
         updateUi()
-        addAds()
+        //addAds()
     }
 
+    /*
     private fun addAds() {
         // add AdMob
         val adView = AdView(this)
@@ -79,6 +80,7 @@ class PrefActivity : PreferenceActivity() {
         val adRequest = AdRequest.Builder().build()
         adView.loadAd(adRequest)
     }
+    */
 
     public override fun onResume() {
         super.onResume()

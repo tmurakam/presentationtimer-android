@@ -13,7 +13,7 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
-import com.google.firebase.analytics.FirebaseAnalytics
+//import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import org.tmurakam.presentationtimer.TimerLogic.TimerCallback
 
@@ -65,7 +65,7 @@ class MainActivity : Activity(), TimerCallback {
         FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true)
 
         // Firebase Analytics
-        FirebaseAnalytics.getInstance(this)
+        //FirebaseAnalytics.getInstance(this)
 
         mActionBar = actionBar
         mActionBar?.hide()
