@@ -13,6 +13,7 @@
         android:layout_weight="1"
         class="org.tmurakam.presentationtimer.FontFitTextView"
         android:clickable="true"
+        android:focusable="true"
         android:gravity="center_vertical|center_horizontal"
         android:includeFontPadding="false"
         android:text="00:00"
@@ -29,21 +30,18 @@
             android:id="@+id/startStop"
             android:layout_width="0sp"
             android:layout_height="64sp"
-            android:layout_marginLeft="8sp"
-            android:layout_marginRight="5sp"
             android:layout_weight="1"
-            android:onClick="onClickStartStop"
             android:text="@string/start"
             android:layout_marginStart="8sp"
             android:layout_marginEnd="5sp" />
 
         <ImageButton
+            android:id="@+id/bell"
             android:layout_width="0sp"
             android:layout_height="64sp"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_weight="1"
             android:contentDescription="bell"
-            android:onClick="onClickBell"
             android:scaleType="center"
             android:src="@drawable/bell32" />
 
@@ -54,17 +52,15 @@
             android:layout_marginLeft="5sp"
             android:layout_marginRight="5sp"
             android:layout_weight="1"
-            android:onClick="onClickReset"
             android:text="@string/reset" >
         </Button>
 
         <ImageButton
+            android:id="@+id/config"
             android:layout_width="wrap_content"
             android:layout_height="48sp"
-            android:layout_marginRight="8sp"
             android:background="@null"
             android:contentDescription="config"
-            android:onClick="onClickConfig"
             android:src="@android:drawable/ic_menu_preferences"
             android:layout_marginEnd="8sp" />
     </LinearLayout>

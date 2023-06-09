@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.ImageButton
 //import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import org.tmurakam.presentationtimer.TimerLogic.TimerCallback
@@ -78,8 +79,18 @@ class MainActivity : Activity(), TimerCallback {
         volumeControlStream = AudioManager.STREAM_MUSIC
 
         mTextView = findViewById(R.id.timeView)
+
         mStartStopButton = findViewById(R.id.startStop)
+        mStartStopButton.setOnClickListener { v -> onClickStartStop(v) }
+
+        val bellButton = findViewById<ImageButton>(R.id.bell)
+        bellButton.setOnClickListener { v -> onClickBell(v) }
+
         mResetButton = findViewById(R.id.reset)
+        mResetButton.setOnClickListener { v -> onClickReset(v) }
+
+        val configButton = findViewById<ImageButton>(R.id.config)
+        configButton.setOnClickListener { v -> onClickConfig(v) }
 
         mTextView.setOnClickListener { onClickTime(it) }
 
@@ -118,7 +129,7 @@ class MainActivity : Activity(), TimerCallback {
     /**
      * Start or stop timer (toggle)
      */
-    fun onClickStartStop(v: View?) {
+    private fun onClickStartStop(v: View?) {
         mTimerLogic.toggleTimer()
 
         /*
@@ -136,7 +147,7 @@ class MainActivity : Activity(), TimerCallback {
     /**
      * Reset timer value
      */
-    fun onClickReset(v: View?) {
+    private fun onClickReset(v: View?) {
         mTimerLogic.reset()
         updateTimeLabel()
     }
@@ -144,7 +155,7 @@ class MainActivity : Activity(), TimerCallback {
     /**
      * Ring bell manually
      */
-    fun onClickBell(v: View?) {
+    private fun onClickBell(v: View?) {
         mBellRinger.ringBell(0)
     }
 
@@ -233,7 +244,7 @@ class MainActivity : Activity(), TimerCallback {
         return String.format("%02d:%02d", min, sec)
     }
 
-    fun onClickConfig(v: View?) {
+    private fun onClickConfig(v: View?) {
         val intent = Intent(this, PrefActivity::class.java)
         startActivity(intent)
     }
