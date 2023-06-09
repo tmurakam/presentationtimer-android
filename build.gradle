@@ -1,26 +1,22 @@
 buildscript {
+    //ext.kotlin_version = '1.7.20'
+
     repositories {
         google()
-        jcenter()
-        maven {
-            url 'https://maven.fabric.io/public'
-        }
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.4'
+        //classpath 'com.android.tools.build:gradle:8.0.1'
+        //classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
-        classpath 'com.google.gms:google-services:4.0.1' // firebase
-        classpath 'io.fabric.tools:gradle:1.25.4' // crashlytics
+        classpath 'com.google.gms:google-services:4.3.15' // firebase
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.5'
+        // firebase crashlytics
     }
 }
 
-allprojects {
-    repositories {
-        google()
-        jcenter()
-    }
-}
-
-task wrapper(type: Wrapper) {
-     gradleVersion = '4.4'
+plugins {
+    id 'com.android.application' version '8.0.2' apply false
+    id 'com.android.library' version '8.0.2' apply false
+    id 'org.jetbrains.kotlin.android' version '1.7.20' apply false
 }

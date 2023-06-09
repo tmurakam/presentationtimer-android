@@ -11,8 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dip"
-        android:src="@drawable/icon" >
-    </ImageView>
+        android:contentDescription="icon"
+        android:src="@drawable/icon" />
 
     <TextView
         android:id="@+id/TextAppName"
@@ -21,8 +21,7 @@
         android:layout_marginTop="15dip"
         android:text="Presentation Timer"
         android:textColor="#000"
-        android:textSize="14pt" >
-    </TextView>
+        android:textSize="14pt" />
 
     <TextView
         android:id="@+id/TextVersion"
@@ -31,42 +30,37 @@
         android:layout_marginTop="5dip"
         android:text="Version  xxxxx"
         android:textColor="#000"
-        android:textSize="10pt" >
-    </TextView>
+        android:textSize="10pt" />
 
     <TextView
         android:id="@+id/TextView02"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dip"
-        android:text="Copyright (C) 2008-2016,\nTakuya Murakami"
+        android:text="Copyright (C) 2008-2023,\nTakuya Murakami"
         android:textColor="#000"
-        android:textSize="10pt" >
-    </TextView>
+        android:textSize="10pt" />
 
     <TextView
         android:id="@+id/TextView03"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="10dip"
         android:layout_weight="0.6"
-        android:textSize="5pt" >
-    </TextView>
+        android:textSize="5pt" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dip"
         android:onClick="onClickHelp"
-        android:text="Show help in browser" >
-    </Button>
+        android:text="Show help in browser" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dip"
         android:onClick="onClickPrivacyPolicy"
-        android:text="Privacy Policy" >
-    </Button>
+        android:text="Privacy Policy" />
 
 </LinearLayout>

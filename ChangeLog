@@ -1,3 +1,15 @@
+2023/06/09 : Takuya Murakami
+
+    * v2.1
+	* バグ修正: Android R 以降、ナビゲーションバーが重なる問題を修正
+	* バグ修正: 時間設定画面のチェックボタンを押せない問題を修正
+	* androidx 移行
+	* minSdkVersion: 15 -> 19
+	* Fabric -> Firebase 移行
+	* import TimePickerWithSeconds
+	* Update gradle tools 8.0.x, etc
+	* Analytics / Ads 削除
+
 2018/09/18 : Takuya Murakami
 
 	* v2.0.1
