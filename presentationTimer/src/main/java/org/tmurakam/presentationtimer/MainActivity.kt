@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.media.AudioManager
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -14,9 +15,11 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageButton
+import androidx.annotation.RequiresApi
 //import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import org.tmurakam.presentationtimer.TimerLogic.TimerCallback
+import org.tmurakam.presentationtimer.databinding.MainBinding
 
 /**
  * メインアクティビティ
@@ -31,6 +34,9 @@ class MainActivity : Activity(), TimerCallback {
         private const val COLOR_T3 = Color.RED
     }
 
+    /** View binding */
+    private lateinit var binding: MainBinding
+
     /** 表示モード:カウントダウンモードなら真  */
     private var mIsCountDown = false
 
@@ -44,13 +50,6 @@ class MainActivity : Activity(), TimerCallback {
     private val mHandler = Handler(Looper.myLooper()!!)
 
     private lateinit var mBellRinger: BellRinger
-
-    /** 現在時間表示ビュー  */
-    private lateinit var mTextView: FontFitTextView
-
-    /** ボタン  */
-    private lateinit var mStartStopButton: Button
-    private lateinit var mResetButton: Button
 
     /** ActionBar  */
     private var mActionBar: ActionBar? = null
@@ -70,7 +69,11 @@ class MainActivity : Activity(), TimerCallback {
 
         mActionBar = actionBar
         mActionBar?.hide()
-        setContentView(R.layout.main)
+
+        // View Binding
+        binding = MainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         // ステータスバーを消す
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -78,26 +81,17 @@ class MainActivity : Activity(), TimerCallback {
         // 音量ボタンで、Media ボリュームが変わるようにする
         volumeControlStream = AudioManager.STREAM_MUSIC
 
-        mTextView = findViewById(R.id.timeView)
-
-        mStartStopButton = findViewById(R.id.startStop)
-        mStartStopButton.setOnClickListener { v -> onClickStartStop(v) }
-
-        val bellButton = findViewById<ImageButton>(R.id.bell)
-        bellButton.setOnClickListener { v -> onClickBell(v) }
-
-        mResetButton = findViewById(R.id.reset)
-        mResetButton.setOnClickListener { v -> onClickReset(v) }
-
-        val configButton = findViewById<ImageButton>(R.id.config)
-        configButton.setOnClickListener { v -> onClickConfig(v) }
-
-        mTextView.setOnClickListener { onClickTime(it) }
+        // イベントハンドラ設定
+        binding.startStop.setOnClickListener { v -> onClickStartStop(v) }
+        binding.bell.setOnClickListener { v -> onClickBell(v) }
+        binding.reset.setOnClickListener { v -> onClickReset(v) }
+        binding.config.setOnClickListener { v -> onClickConfig(v) }
+        binding.timeView.setOnClickListener { onClickTime(it) }
 
         // scaled density 取得
         val metrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(metrics)
-        mTextView.density = metrics.scaledDensity
+        binding.timeView.density = metrics.scaledDensity
         Log.d(TAG, "Density = " + metrics.scaledDensity)
 
         savedInstanceState?.let { restoreInstanceState(it) }
@@ -195,12 +189,12 @@ class MainActivity : Activity(), TimerCallback {
      */
     private fun updateUiStates() {
         if (!mTimerLogic.isTimerWorking) {
-            mStartStopButton.setText(R.string.start)
-            mResetButton.isEnabled = true
+            binding.startStop.setText(R.string.start)
+            binding.reset.isEnabled = true
             window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         } else {
-            mStartStopButton.setText(R.string.pause)
-            mResetButton.isEnabled = false
+            binding.startStop.setText(R.string.pause)
+            binding.reset.isEnabled = false
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
     }
@@ -219,7 +213,7 @@ class MainActivity : Activity(), TimerCallback {
             t = target - currentTime
             if (t < 0) t = -t
         }
-        mTextView.text = timeText(t)
+        binding.timeView.text = timeText(t)
 
         val col: Int = when {
             currentTime >= mPrefs.getBellTime(3) -> {
@@ -235,7 +229,7 @@ class MainActivity : Activity(), TimerCallback {
                 Color.WHITE // 0xffffffff
             }
         }
-        mTextView.setTextColor(col)
+        binding.timeView.setTextColor(col)
     }
 
     private fun timeText(n: Int): String {

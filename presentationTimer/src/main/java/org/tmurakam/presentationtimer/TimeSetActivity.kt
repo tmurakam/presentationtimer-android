@@ -5,14 +5,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.CheckBox
 import com.ikovac.timepickerwithseconds.view.TimePicker
+import org.tmurakam.presentationtimer.databinding.TimeSetBinding
 
 /**
  * 時刻設定 Activity
  */
 class TimeSetActivity : Activity() {
     private var mKind = 0
-    private lateinit var mTimePicker: TimePicker
-    private lateinit var mCheckIsEndTime: CheckBox
+    private lateinit var binding: TimeSetBinding
     private lateinit var mPrefs: Prefs
 
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,11 +20,9 @@ class TimeSetActivity : Activity() {
 
         mPrefs = Prefs(this)
 
-        //setTheme(R.style.MyDialog);
-        setContentView(R.layout.time_set)
-
-        mTimePicker = findViewById(R.id.TimePicker)
-        mCheckIsEndTime = findViewById(R.id.CheckUseAsEndTime)
+        binding = TimeSetBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         mKind = intent.getIntExtra("kind", 1)
 
@@ -33,21 +31,23 @@ class TimeSetActivity : Activity() {
         val min = time / 60 % 60
         val sec = time % 60
 
-        mTimePicker.setIs24HourView(true)
-        mTimePicker.currentHour = hour
-        mTimePicker.currentMinute = min
-        mTimePicker.setCurrentSecond(sec)
+        val timePicker = binding.TimePicker
+        timePicker.setIs24HourView(true)
+        timePicker.currentHour = hour
+        timePicker.currentMinute = min
+        timePicker.setCurrentSecond(sec)
 
-        mCheckIsEndTime.isChecked = mKind == mPrefs.countDownTarget
+        binding.CheckUseAsEndTime.isChecked = mKind == mPrefs.countDownTarget
     }
 
     fun onClickOk(v: View?) {
-        val hour = mTimePicker.currentHour
-        val min = mTimePicker.currentMinute
-        val sec = mTimePicker.currentSeconds
+        val timePicker = binding.TimePicker
+        val hour = timePicker.currentHour
+        val min = timePicker.currentMinute
+        val sec = timePicker.currentSeconds
 
         mPrefs.setBellTime(mKind, hour * 3600 + min * 60 + sec)
-        if (mCheckIsEndTime.isChecked) {
+        if (binding.CheckUseAsEndTime.isChecked) {
             mPrefs.countDownTarget = mKind
         }
         finish()
