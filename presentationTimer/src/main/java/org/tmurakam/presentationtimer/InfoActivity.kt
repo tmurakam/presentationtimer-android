@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.widget.TextView
 import android.content.pm.PackageManager
 import android.content.Intent
+import android.content.pm.PackageInfo
 import android.net.Uri
+import android.os.Build
 import android.view.View
 
 class InfoActivity : Activity() {
@@ -24,7 +26,12 @@ class InfoActivity : Activity() {
         var version = "?"
         try {
             val pkgname = this.packageName
-            val pi = packageManager.getPackageInfo(pkgname, 0)
+            var pi: PackageInfo
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                pi = packageManager.getPackageInfo(pkgname, PackageManager.PackageInfoFlags.of(0))
+            } else {
+                pi = packageManager.getPackageInfo(pkgname, 0)
+            }
             version = pi.versionName
         } catch (e: PackageManager.NameNotFoundException) {
         }
