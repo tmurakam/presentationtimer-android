@@ -2,24 +2,25 @@ package org.tmurakam.presentationtimer
 
 import android.app.Activity
 import android.os.Bundle
-import android.widget.TextView
 import android.content.pm.PackageManager
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.net.Uri
 import android.os.Build
 import android.view.View
+import org.tmurakam.presentationtimer.databinding.InfoBinding
 
 class InfoActivity : Activity() {
+    private lateinit var binding: InfoBinding
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.info)
 
-        val textAppName: TextView = findViewById(R.id.TextAppName)
-        textAppName.setText(R.string.app_name)
+        binding = InfoBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val textVersion: TextView = findViewById(R.id.TextVersion)
-        textVersion.text = String.format("Version %s", getVersion())
+        binding.TextAppName.setText(R.string.app_name)
+        binding.TextVersion.text = String.format("Version %s", getVersion())
     }
 
     private fun getVersion(): String {
