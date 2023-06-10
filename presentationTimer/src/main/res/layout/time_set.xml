@@ -10,13 +10,13 @@
         android:id="@+id/TimePicker"
         android:layout_width="wrap_content"
         android:layout_height="180sp"
-        android:layout_margin="8sp"/>
+        android:layout_margin="0sp" />
 
     <CheckBox
         android:id="@+id/CheckUseAsEndTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16sp"
+        android:layout_marginTop="8sp"
         android:layout_marginBottom="8sp"
         android:clickable="true"
         android:focusable="true"
@@ -29,7 +29,7 @@
         android:id="@+id/LinearLayout01"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16sp">
+        android:layout_margin="0sp">
 
         <Button
             android:id="@+id/Button02"
