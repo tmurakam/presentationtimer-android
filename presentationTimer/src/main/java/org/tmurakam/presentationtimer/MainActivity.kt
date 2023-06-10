@@ -1,22 +1,16 @@
 package org.tmurakam.presentationtimer
 
+//import com.google.firebase.analytics.FirebaseAnalytics
 import android.app.ActionBar
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.media.AudioManager
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.DisplayMetrics
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import android.widget.Button
-import android.widget.ImageButton
-import androidx.annotation.RequiresApi
-//import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import org.tmurakam.presentationtimer.TimerLogic.TimerCallback
 import org.tmurakam.presentationtimer.databinding.MainBinding
