@@ -88,11 +88,6 @@ class MainActivity : Activity(), TimerCallback {
         binding.config.setOnClickListener { v -> onClickConfig(v) }
         binding.timeView.setOnClickListener { onClickTime(it) }
 
-        // scaled density 取得
-        val metrics = resources.displayMetrics
-        Log.d(TAG, "scaledDensity = " + metrics.scaledDensity)
-        binding.timeView.density = metrics.scaledDensity
-
         savedInstanceState?.let { restoreInstanceState(it) }
         updateTimeLabel()
         updateUiStates()

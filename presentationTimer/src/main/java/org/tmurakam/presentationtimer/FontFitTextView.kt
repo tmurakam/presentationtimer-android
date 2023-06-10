@@ -1,6 +1,7 @@
 package org.tmurakam.presentationtimer
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Paint
 import android.graphics.Rect
 import android.util.AttributeSet
@@ -18,7 +19,6 @@ class FontFitTextView : AppCompatTextView {
     // Getters and Setters
     private var minTextSize = 0f
     private var maxTextSize = 0f
-    var density = 1f
 
     constructor(context: Context?) : super(context!!) {
         initialize()
@@ -60,9 +60,18 @@ class FontFitTextView : AppCompatTextView {
     private fun refitText(text: String, width: Int, height: Int) {
         if (width <= 0 || height <= 0) return
 
-        // 表示可能領域サイズを取得 (dp単位)
-        val availableWidth = ((width - this.paddingLeft - this.paddingRight) / density).toInt()
-        val availableHeight = ((height - this.paddingTop - this.paddingBottom) / density).toInt()
+        // density 取得
+        //val scaledDensity = Resources.getSystem().displayMetrics.scaledDensity
+        val density = Resources.getSystem().displayMetrics.density
+
+        // 表示可能領域サイズを取得 (px -> dp単位に変換)
+        var availableWidth = ((width - this.paddingLeft - this.paddingRight) / density).toInt()
+        var availableHeight = ((height - this.paddingTop - this.paddingBottom) / density).toInt()
+
+        // 安全のため、微妙にマージンを取る
+        availableWidth -= 2
+        availableHeight -= 2
+
         var max = maxTextSize
         var min = minTextSize
         val textBounds = Rect()

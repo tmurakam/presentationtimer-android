@@ -18,7 +18,8 @@
         android:includeFontPadding="false"
         android:text="00:00"
         android:textColor="#fff"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:maxLines="1"/>
 
     <LinearLayout
         android:id="@+id/LinearLayout01"
