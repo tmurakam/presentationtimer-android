@@ -1,6 +1,13 @@
 2023/06/10 : Takuya Murakami
 
 	* v2.1.2
+	* バグ修正: 時間表示が改行してしまうなどの問題を修正 (density計算)
+	  - AppCompatTextView に置き換え、FontFitTextView 廃止
+	  - 画面レイアウトを ConstraintLayout に変更
+
+2023/06/10 : Takuya Murakami
+
+	* v2.1.1
 	* バグ修正: 高解像度端末で表示がおかしくなる問題を修正
 
 2023/06/09 : Takuya Murakami
