@@ -7,8 +7,8 @@ plugins {
 android {
     namespace 'org.tmurakam.presentationtimer'
 
-    compileSdkVersion 33
-    buildToolsVersion '33.0.2'
+    compileSdkVersion 34
+    buildToolsVersion '34.0.0'
 
     // 署名設定は keystore.propertiesファイルに記述すること
     Properties props = new Properties()
@@ -41,7 +41,7 @@ android {
         //minSdkVersion 9
         //minSdkVersion 15
         minSdkVersion 19
-        targetSdkVersion 33
+        targetSdkVersion 34
 
         multiDexEnabled true
     }
