@@ -33,7 +33,7 @@ class InfoActivity : Activity() {
             } else {
                 pi = packageManager.getPackageInfo(pkgname, 0)
             }
-            version = pi.versionName
+            version = pi.versionName ?: "?"
         } catch (e: PackageManager.NameNotFoundException) {
         }
         return version
