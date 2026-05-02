@@ -43,7 +43,7 @@ android {
         //minSdkVersion 9
         //minSdkVersion 15
         minSdkVersion 23
-        targetSdkVersion 34
+        targetSdkVersion 35
 
         multiDexEnabled true
     }

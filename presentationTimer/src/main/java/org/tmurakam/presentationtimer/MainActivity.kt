@@ -11,6 +11,10 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.view.WindowManager
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import org.tmurakam.presentationtimer.TimerLogic.TimerCallback
 import org.tmurakam.presentationtimer.databinding.MainBinding
@@ -64,13 +68,26 @@ class MainActivity : Activity(), TimerCallback {
         mActionBar = actionBar
         mActionBar?.hide()
 
+        // Edge-to-edge 有効化
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         // View Binding
         binding = MainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
         // ステータスバーを消す
-        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        WindowInsetsControllerCompat(window, binding.root).apply {
+            hide(WindowInsetsCompat.Type.statusBars())
+            systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
+
+        // ナビゲーションバー分のパディングを追加
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+            val navBar = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
+            v.setPadding(0, 0, 0, navBar.bottom)
+            insets
+        }
 
         // 音量ボタンで、Media ボリュームが変わるようにする
         volumeControlStream = AudioManager.STREAM_MUSIC
