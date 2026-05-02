@@ -7,8 +7,8 @@ plugins {
 android {
     namespace 'org.tmurakam.presentationtimer'
 
-    compileSdk 34
-    buildToolsVersion = '34.0.0'
+    compileSdk 37
+    //buildToolsVersion = '34.0.0'
 
     // 署名設定は keystore.propertiesファイルに記述すること
     /*
@@ -30,7 +30,7 @@ android {
             //signingConfig signingConfigs.release
 
             minifyEnabled true
-            proguardFile getDefaultProguardFile('proguard-android.txt')
+            proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
             proguardFile file('proguard-project.txt')
         }
     }
