@@ -18,6 +18,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import org.tmurakam.presentationtimer.TimerLogic.TimerCallback
 import org.tmurakam.presentationtimer.databinding.MainBinding
+import androidx.core.graphics.toColorInt
 
 /**
  * メインアクティビティ
@@ -28,7 +29,7 @@ class MainActivity : Activity(), TimerCallback {
         private const val KEY_IS_COUNTDOWN = "isCountDown"
 
         private const val COLOR_T1 = Color.YELLOW
-        private val COLOR_T2 = Color.parseColor("#ffff33cc")
+        private val COLOR_T2 = "#ffff33cc".toColorInt()
         private const val COLOR_T3 = Color.RED
     }
 
@@ -60,7 +61,7 @@ class MainActivity : Activity(), TimerCallback {
         mBellRinger = BellRinger(this)
 
         // Firebase Crashlytics
-        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true)
+        FirebaseCrashlytics.getInstance().isCrashlyticsCollectionEnabled = true
 
         // Firebase Analytics
         //FirebaseAnalytics.getInstance(this)
