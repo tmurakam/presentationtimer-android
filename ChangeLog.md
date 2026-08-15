@@ -1,0 +1,72 @@
+# ChangeLog
+
+## 2026/08/07 (v2.1.3)
+
+* targetSdkVersion: 34 -> 37
+* minSdkVersion: 19 -> 23 (Android 6.0 Marshmallow) 未満サポート終了
+* Edge-to-Edge表示に対応
+
+## 2023/06/10 (v2.1.2)
+
+* バグ修正: 時間表示が改行してしまうなどの問題を修正 (density計算)
+  * AppCompatTextView に置き換え、FontFitTextView 廃止
+  * 画面レイアウトを ConstraintLayout に変更
+
+## 2023/06/10 (v2.1.1)
+
+* バグ修正: 高解像度端末で表示がおかしくなる問題を修正
+
+## 2023/06/09 (v2.1)
+
+* バグ修正: Android R 以降、ナビゲーションバーが重なる問題を修正
+* バグ修正: 時間設定画面のチェックボタンを押せない問題を修正
+* androidx 移行
+* minSdkVersion: 15 -> 19
+* Fabric -> Firebase 移行
+* import TimePickerWithSeconds
+* Update gradle tools 8.0.x, etc
+* Analytics / Ads 削除
+
+## 2018/09/18 (v2.0.1)
+
+* プライバシーポリシー追加
+
+## 2016/09/03 (v2.0)
+
+* 秒指定機能追加
+* Crashlytics -> Fabric 移行
+* Firebase 移行
+
+## 2015/01/07 (v1.2)
+
+* ステータスバーを消す
+* バイブレーションオプション追加
+* バグ修正: dp=1 以外の端末でフォントサイズが合わない問題修正
+* Crashlytics 導入
+
+## 2015/01/06
+
+* ActionBar 非表示、設定ボタンを右下に追加
+
+## 2014/12/17 (v1.2 (beta))
+
+* Gradle 対応、ディレクトリ構成変更
+* ActionBar 表示 (Android 3.x 以上)
+* フルスクリーンモード: タイマ稼働時に ActionBar を消す
+* minSdkVersion 変更: 7->9
+
+## 2012/09/29 (v1.1)
+
+* Android 3.0 以降で、TimePicker が12時間表示になってしまう問題を修正。
+* 最大フォントサイズを上げた(10インチタブレットなど用)
+
+## 2012/02/14
+
+* バグ修正: Android 4.0 で文字が正しい位置に出ないことがある。
+* 音量をマスターボリュームで変更できるようにした
+
+## 2011/7/5
+
+* バイブレータ機能追加
+
+## 2010/12/13 (v1.0)
